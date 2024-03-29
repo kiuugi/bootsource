@@ -1,0 +1,40 @@
+
+spring framework
+spring boot
+
+ => 내장톰캣
+ => jar or war
+	애플리케이션 개발하고 테스트 후 실제 운영 서버에 배포하기 위해 패키징 필요
+	==> 웹 어플리케이션인 경우는 war 파일로 패키징 함
+	==> jar : 일반 응용 프로그램 
+ => 라이브러리 자동 관리(pom.xml)
+ => spring framework 와 다르게 설정 자동화
+
+ 화면단 결정
+=> jsp(default 아님)
+=> thymeleaf ( html 확장자를 사용, jsp 유사)(우리는 이걸 화면단으로 쓰기로 함)
+=> freemaker, groovy, mushache, ...;
+
+프로젝트 구조
+1) 자바파일 => src/main/java/기본패키지/
+
+2) html, css, js => static/
+
+3) templates => thymeleaf 파일
+
+4) aplication.properties => 프로젝트 환경설정
+   DB 설정, 서버 포트 변경, 로그 설정, ...;
+
+
+실행은 *Application.java 들어가서 Run
+
+
+스프링 부트에서 데이터베이스 연동
+1) 스프링 jdbc // 잘 안씀
+2) ORM 라이브러리 // 선택
+	- Mybatis
+	- hibernate // (일단 이걸 씀)
+
+3)
+
+
