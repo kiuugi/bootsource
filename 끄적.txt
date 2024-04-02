@@ -80,6 +80,12 @@ Tv tv = new LgTv(); Tv 클래스에 접근가능 LgTv에 접근하는게 아님
 데이터 보내기
 request.setAttribute("이름", 값) == model.addAttribute("page", page);
 Model.addAttribute("이름", 값);
+	th:text="${mDto.email}"
+RedirectAttributes == path +="?bno="+bno;
+	rttr.addAttribute("이름", 보내고싶은 데이터) => 파라메터로 전달 => ${param.*}
+	th:text="${param.bno}"
+	rttr.addFlashAttribute("이름", 값) => Sesstion을 이용해서 값을 저장 sesstion에 임시로 저장
+
 
 @Log4j2
 @Controller : 컨트롤러 클래스 위에 설정 / 스프링 컨테이너가 해당 클래스의 객체를 생성(new 객체 를 따로 쓸 필요가 없어짐) 알아서 관리해줌 (제어의 역전 IoC)
@@ -89,3 +95,37 @@ Model.addAttribute("이름", 값);
 @RequestParam(value = "name", defaultValue = "0") int num1 ==> num1 = ("name") / request에서 넘어오는 파라메터의 이름 지정할 때 사용
 @ModelAttribute("이름") : Dto 객체 이름 지정
 			==  model.addAttribute("page", page); == servlet 에서 forword로 보낼때 쓰던 setAttribute와 같음
+
+
+
+
+##lombok##
+@Data
+@Builder
+
+
+##Thymeleaf##
+th:text="" 따음표 안에있는 태그는 해석하지 않음
+th:utext="" 따음표 안에있는 태그까지 해석함
+th:each="dtoList : ${list}" => foreach 구문
+시간 표현 th:text="${#temporals.format(dtoList.regTime, 'yyyy-MM-dd hh:mm:ss')}"
+th:if="${dtoList.id % 5 == 0}" 조건문 if
+<li th:each="dtoList : ${list}" th:text="${dtoList.id % 5 == 0}?${'---------' + dtoList.id}:${dtoList.first}"></li> 사막연산자 가능
+th:switch="${state.even}"
+th:case="true" switch case도 있음
+스크립트에서 Thymeleaf
+    <script>
+      const result = "[[${result}]]";
+    </script>
+또는 <script th:inline="javascript">
+	const result = [[${result}]]
+     </script>
+th:href="@{/sample/ex1(id=${dtoList.id})}" => /sample/ex1?id=1 / a태그 get방식으로 데이터 넘김
+
+div th:fragment="header" / 레이아웃 나누기 / 이름정하는거니까 ${}쓰지 않음
+th:insert="/fragments/separate :: content" == jsp에서 includ / 나눈 레이아웃 포함시키기
+th:replace="/fragments/separate :: header" => insert랑 같은데 replace를 쓴 태그를 없애고 들어옴
+
+layout:fragment="이름" / html 상단에 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layouts/layout}" 들어가있으면 /layouts/layout 의 layout:fragment="이름" 과 같은 자리에 들어감 
+
+<th:block></th:block> : 의미는 없고 Thymeleaf 템플릿 엔진이 템플릿을 처리하는 동안 구문을 그룹화하고 제어 구조를 나타내기 위해 사용
