@@ -129,3 +129,10 @@ th:replace="/fragments/separate :: header" => insert랑 같은데 replace를 쓴
 layout:fragment="이름" / html 상단에 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layouts/layout}" 들어가있으면 /layouts/layout 의 layout:fragment="이름" 과 같은 자리에 들어감 
 
 <th:block></th:block> : 의미는 없고 Thymeleaf 템플릿 엔진이 템플릿을 처리하는 동안 구문을 그룹화하고 제어 구조를 나타내기 위해 사용
+
+
+@Length(min = 2, max = 6)
+@Email
+@NotEmpty
+@NotBlank
+
