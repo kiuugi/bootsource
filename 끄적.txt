@@ -35,6 +35,57 @@ spring boot
 	- Mybatis
 	- hibernate // (일단 이걸 씀)
 
-3)
+스프링 중요 개념
+1. DI(Dependency Injection) : 의존성 주입
+ - setter, 생성자를 이용한 객체 생성
+
+==> 스프링 컨테이너가 필요한 객체를 필요한 시점에 주입해줌(IoC)
+==> Inversion of Control(제어의 역전) // 지금까지 개발자가 제어하던 의존성 컨트롤을 스프링 컨테이너가 해줌
 
 
+모든 요청은 컨트롤러에 경로가 있어야 함
+
+스프링에서 직접적으로 파일 링크 불가능
+<a href="index.html">index</a> / 이런거 불가능
+
+대신 컨트롤러 경로지정
+<a href="/">index</a>
+
+스프링 프레임워크가 관리해주는 자바 클래스 = bean / 커피콩
+
+@GetMapping("/login")
+public void login() {
+    void 타입 = 요청한 페이지로
+}
+
+@PostMapping("/login")
+public String loginPost() {
+    return "/member/info";
+    String 타입 = return 에 써져있는 주소로 넘어감
+}
+
+post 는 form태그 있을때. 나머지는 get으로 받는다고 생각하는게 편한듯
+
+
+
+
+
+
+
+
+
+Tv tv = new LgTv(); Tv 클래스에 접근가능 LgTv에 접근하는게 아님
+
+
+데이터 보내기
+request.setAttribute("이름", 값) == model.addAttribute("page", page);
+Model.addAttribute("이름", 값);
+
+@Log4j2
+@Controller : 컨트롤러 클래스 위에 설정 / 스프링 컨테이너가 해당 클래스의 객체를 생성(new 객체 를 따로 쓸 필요가 없어짐) 알아서 관리해줌 (제어의 역전 IoC)
+@RequestMapping : (value = "/경로", method = RequestMethod.GET:방식post, get) / 경로 지정(예전 버전) / 컨트롤러에 달아서 전체경로달음
+@GetMapping("/경로") : @RequestMapping 의 GET 간략화
+@PostMapping("/경로") : @RequestMapping 의 POST 간략화
+@RequestParam(value = "name", defaultValue = "0") int num1 ==> num1 = ("name") / request에서 넘어오는 파라메터의 이름 지정할 때 사용
+@ModelAttribute("이름") : Dto 객체 이름 지정
+			==  model.addAttribute("page", page); == servlet 에서 forword로 보낼때 쓰던 setAttribute와 같음
