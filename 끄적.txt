@@ -67,9 +67,38 @@ public String loginPost() {
 post 는 form태그 있을때. 나머지는 get으로 받는다고 생각하는게 편한듯
 
 
+데이터베이스 연동
+1) JDBC 사용
+----------------------
+스프링 프레임워크
+1) JDBC 사용  (X)
+2) 스프링 DAO  (X)
+3) 마이바티즈 
+4) 하이버네이트 ORM (Object Rlational Mapping) : Java 의 Dto 와 DB의 Table이 같은 모양이기때문에 Dto만 만들어도 DB의 Table이 만들어짐
+=> JPA(Java Persistence API) : ORM의 개념을 Java 언어에서 구현하기 위한 스펙
+=> JPA를 구현한 구현체 : Hibernate
+JPA 장점 : 데이터베이스 관련 코드에 대해 유연함을 얻을 수 있음
+	- 데이터베이스 변경 시 SQL 변경/DAO/Service/화면까지 영향을 미치게되나, JPA를 이용 시 DB설계와 JAVA 설계를 한 번에 처리할 수 있음
+	- 데이터베이스와 독립적 관계 - 특정 벤더의 데이터베이스에 종속적이지 않기 때문에 데이터베이스 제품이 변경되거나 버전이 변경되는 것과 같은 작업에서 자유로워질 수 있음
+    단점 : 학습 곡선이 큼 - 기존의 데이터베이스 위주 학습에 비해 새롭게 배워야 할 부분이 많음
+	근본적인 객체지향 설계 사상이 반영되어야 함 - JPA는'어떻게 적합한 객체들의 관계를 작성할 것인가?' 가 프로젝트의 성패를 좌우함 => 충분한 설계와 검토 과정 필요
+	특정 데이터베이스의 강력함을 활용할 수 없음 - SQL 튜닝과 같은 작업에 제약이 생길 수 있음
+JPA API - Entity, EntityManager
+ 데이터베이스에서의 Entity
+ 1) 데이터베이스 상에서 데이터로 관리하는 대상
+ 2) 상품, 회사, 직원 등과 같이 명사이면서 업무와 관련된 데이터
+ 3) 테이블 설계하고 데이터를 추가
 
+ JPA 에서의 Entity
+ 1) Java를 이용해서 Entity를 관리
+ 2) 하나의 클래스를 작성
 
-
+ EntityManager
+ 1) 여러 엔티티 객체들을 관리하는 역할 : LifeCycle 관리
+	
+1씩증가 시퀀스 만들기
+ @SequenceGenerator(name = "memo_seq_gen", sequenceName = "memo_seq", allocationSize = 1)
+ @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "memo_seq_gen")
 
 
 
@@ -86,7 +115,7 @@ RedirectAttributes == path +="?bno="+bno;
 	th:text="${param.bno}"
 	rttr.addFlashAttribute("이름", 값) => Sesstion을 이용해서 값을 저장 sesstion에 임시로 저장
 
-
+## boot
 @Log4j2
 @Controller : 컨트롤러 클래스 위에 설정 / 스프링 컨테이너가 해당 클래스의 객체를 생성(new 객체 를 따로 쓸 필요가 없어짐) 알아서 관리해줌 (제어의 역전 IoC)
 @RequestMapping : (value = "/경로", method = RequestMethod.GET:방식post, get) / 경로 지정(예전 버전) / 컨트롤러에 달아서 전체경로달음
@@ -95,7 +124,7 @@ RedirectAttributes == path +="?bno="+bno;
 @RequestParam(value = "name", defaultValue = "0") int num1 ==> num1 = ("name") / request에서 넘어오는 파라메터의 이름 지정할 때 사용
 @ModelAttribute("이름") : Dto 객체 이름 지정
 			==  model.addAttribute("page", page); == servlet 에서 forword로 보낼때 쓰던 setAttribute와 같음
-
+@Autowired = interface클래스 를 구현 클래스를 따로 만들지 않아도 쓸 수 있도록 해줌
 
 
 
@@ -129,7 +158,7 @@ th:replace="/fragments/separate :: header" => insert랑 같은데 replace를 쓴
 layout:fragment="이름" / html 상단에 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layouts/layout}" 들어가있으면 /layouts/layout 의 layout:fragment="이름" 과 같은 자리에 들어감 
 
 <th:block></th:block> : 의미는 없고 Thymeleaf 템플릿 엔진이 템플릿을 처리하는 동안 구문을 그룹화하고 제어 구조를 나타내기 위해 사용
-
+th:object="${memberDto}" :  데이터를 템플릿에 바인딩하여 동적으로 렌더링할 수 있도록 합니다.
 
 @Length(min = 2, max = 6)
 @Email
