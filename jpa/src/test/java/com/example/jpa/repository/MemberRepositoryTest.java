@@ -39,6 +39,9 @@ public class MemberRepositoryTest {
         memberRepository.findByUserName("이춘향이오3").forEach(member -> {
             System.out.println(member);
         });
+        memberRepository.findByUserNameLike("%이춘향%").forEach(member -> {
+            System.out.println(member);
+        });
     }
 
     @Test

@@ -100,7 +100,7 @@ JPA API - Entity, EntityManager
  @SequenceGenerator(name = "memo_seq_gen", sequenceName = "memo_seq", allocationSize = 1)
  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "memo_seq_gen")
 
-
+.save() : insert, update
 
 
 Tv tv = new LgTv(); Tv 클래스에 접근가능 LgTv에 접근하는게 아님
@@ -115,22 +115,51 @@ RedirectAttributes == path +="?bno="+bno;
 	th:text="${param.bno}"
 	rttr.addFlashAttribute("이름", 값) => Sesstion을 이용해서 값을 저장 sesstion에 임시로 저장
 
+기본타입 : 소문자 시작 / int, long, boolean, char, float, double, ... / null 대입 불가
+객체타입 : 대문자 시작 / Integer, Long, Boolean, ... / null 대입 가능
+기본타입은 no null 객체타입은 null 가능으로 설정됨
+@Column(columnDefinition = "number(8)") // 컬럼 속성 정의
+
+
+JPA 연관관계 종류
+일대일 1 @OneToOne
+일대다 2 @OneToMany
+다대일 3 @ManyToOne
+다대다 4 @ManyToMany
+
+
 ## boot
 @Log4j2
+@Component : 스프링 컨테이너가 관리가 필요한 모든 객체에 사용(Controller, Service 의 부모)
 @Controller : 컨트롤러 클래스 위에 설정 / 스프링 컨테이너가 해당 클래스의 객체를 생성(new 객체 를 따로 쓸 필요가 없어짐) 알아서 관리해줌 (제어의 역전 IoC)
+@Service : 서비스 클래스 위에 설정 / 스프링 컨테이너가 해당 클래스의 객체를 생성한 후 관리 해줌
+
 @RequestMapping : (value = "/경로", method = RequestMethod.GET:방식post, get) / 경로 지정(예전 버전) / 컨트롤러에 달아서 전체경로달음
 @GetMapping("/경로") : @RequestMapping 의 GET 간략화
 @PostMapping("/경로") : @RequestMapping 의 POST 간략화
 @RequestParam(value = "name", defaultValue = "0") int num1 ==> num1 = ("name") / request에서 넘어오는 파라메터의 이름 지정할 때 사용
 @ModelAttribute("이름") : Dto 객체 이름 지정
 			==  model.addAttribute("page", page); == servlet 에서 forword로 보낼때 쓰던 setAttribute와 같음
-@Autowired = interface클래스 를 구현 클래스를 따로 만들지 않아도 쓸 수 있도록 해줌
+
+@SpringBootTest : 테스트 전용 클래스
+@Test // 테스트 메소드(리턴타입은 void)
+@Autowired = 객체 주입(생성된 객체 넣어줘) / interface클래스 를 구현 클래스를 따로 만들지 않아도 쓸 수 있도록 해줌
+ - 객체 생성해서 스프링 컨테이너가 자지고 있음
+@Table(name = "membertbl", uniqueConstraints = { // 제약조건 유니크함(name, age) 중복불가
+        @UniqueConstraint(name = "NAME_AGE_UNIQUE", columnNames = { "name", "age" }) })
+ => 테이블 명 / 제약조건 거는법
+@Enumerated(EnumType.STRING) // check (role_type in ('ADMIN','USER')) : Column안에 들어가는 값이 정해져있는 경우 , 클래스를 만들어서 값을 지정해둠
+@Lob // 대용량 데이터 담기
+
+
 
 
 
 ##lombok##
 @Data
 @Builder
+@RequiredArgsConstructor / @NotNull, final 이 붙은 멤버변수를 대상으로 생성자 생성
+
 
 
 ##Thymeleaf##
@@ -152,8 +181,8 @@ th:case="true" switch case도 있음
 th:href="@{/sample/ex1(id=${dtoList.id})}" => /sample/ex1?id=1 / a태그 get방식으로 데이터 넘김
 
 div th:fragment="header" / 레이아웃 나누기 / 이름정하는거니까 ${}쓰지 않음
-th:insert="/fragments/separate :: content" == jsp에서 includ / 나눈 레이아웃 포함시키기
-th:replace="/fragments/separate :: header" => insert랑 같은데 replace를 쓴 태그를 없애고 들어옴
+th:insert="~{fragments/separate :: content}" == jsp에서 includ / 나눈 레이아웃 포함시키기
+th:replace="~{fragments/separate :: header}" => insert랑 같은데 replace를 쓴 태그를 없애고 들어옴
 
 layout:fragment="이름" / html 상단에 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layouts/layout}" 들어가있으면 /layouts/layout 의 layout:fragment="이름" 과 같은 자리에 들어감 
 

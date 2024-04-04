@@ -44,6 +44,7 @@ public class MemoRepositoryTest {
     @Test
     public void getMemoList() {
         List<Memo> result = memoRepository.findAll();
+
         for (Memo memo : result) {
             System.out.println(memo);
 

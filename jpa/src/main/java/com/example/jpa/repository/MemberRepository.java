@@ -9,5 +9,7 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     // select * from member where name='홍길동'
     List<Member> findByUserName(String userName);
 
+    List<Member> findByUserNameLike(String userName);
+
     List<Member> findByAge(Integer age);
 }
