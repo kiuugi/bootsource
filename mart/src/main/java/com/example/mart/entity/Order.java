@@ -49,6 +49,6 @@ public class Order {
     private OrderStatus orderStatus; // 주문상대 -ORDER, CANCEL
 
     @Builder.Default
-    @OneToMany(mappedBy = "order") // fetch = DetchType.EAGER
+    @OneToMany(mappedBy = "order") // fetch = FetchType.EAGER
     private List<OrderItem> orderItems = new ArrayList<>();
 }
