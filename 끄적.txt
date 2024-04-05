@@ -127,6 +127,7 @@ JPA 연관관계 종류
 다대일 3 @ManyToOne
 다대다 4 @ManyToMany
 
+1. 단방향 : 외래키는 Many 쪽에 존재
 
 ## boot
 @Log4j2
