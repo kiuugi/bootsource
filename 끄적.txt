@@ -160,7 +160,7 @@ JPA 연관관계 종류
 @Data
 @Builder
 @RequiredArgsConstructor / @NotNull, final 이 붙은 멤버변수를 대상으로 생성자 생성
-
+@Builder.Default // 필드에 기본값으로 빈 ArrayList가 할당
 
 
 ##Thymeleaf##
