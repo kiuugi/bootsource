@@ -1,11 +1,11 @@
-package com.example.mart.entity;
+package com.example.jpa.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,23 +13,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
 @Getter
 @Setter
+@ToString(exclude = "parent")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class Item extends BaseEntity {
-    @SequenceGenerator(name = "mart_item_seq_gen", sequenceName = "item_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mart_item_seq_gen")
-    @Column(name = "item_id")
+public class Child {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
 
-    private int price;
-
-    private int stockQuantity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Parent parent;
 }

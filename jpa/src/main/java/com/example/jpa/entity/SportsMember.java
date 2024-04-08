@@ -16,12 +16,12 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "locker")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class SportsMember {
+public class SportsMember extends BaseEntity {
 
     @Id
     @SequenceGenerator(name = "sports_member_seq_gen", sequenceName = "sports_member_seq", allocationSize = 1)

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,12 +16,12 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "sportsMember")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-public class Locker {
+public class Locker extends BaseEntity {
 
     @Id
     @SequenceGenerator(name = "locker_seq_gen", sequenceName = "locker_seq", allocationSize = 1)
@@ -29,5 +30,8 @@ public class Locker {
     private Long id;
 
     private String name;
+
+    @OneToOne(mappedBy = "locker")
+    private SportsMember sportsMember;
 
 }

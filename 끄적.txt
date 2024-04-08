@@ -129,7 +129,19 @@ JPA 연관관계 종류
 
 - DB의 경우 외래 키 하나로 양 쪽 테이블에 조인이 가능 -> 단방향 양방향 나눌 필요가 없어짐.
 하지만 JPA의 경우 객체는 참조용 필드가 있는 객체만 다른 객체를 참조하는 것이 가능 -> 구 객체 사이에 하나의 객체에만 참조용 필드를 갖고 참조하면 단방향, 두 객체 모두가 각각 참조용 필드를 갖고 참조하면 양방향 관계이다.
-1. 단방향 : 외래키는 Many 쪽에 존재
+1. 단방향 : 외래키는 Many 쪽에 존재, mappedBy는 many쪽에 주자
+
+
+
+@~ToOne : 즉시 로딩 
+@~TOMany : 지연 로딩
+한쪽 테이블을 부를 때 거의 항상 사용된다면 즉시로딩 자주 안쓰이면 지연로딩으로 부르자.
+(fetch = FetchType.LAZY) 지연 로딩이 권고사양임
+
+영속성 전이 : CASCADE
+1) 특정 엔티티를 영속 상태로 만들 때 연관된 엔티티도 함께 영속상태로 만듬
+
+
 
 ## boot
 @Log4j2
@@ -153,6 +165,23 @@ JPA 연관관계 종류
  => 테이블 명 / 제약조건 거는법
 @Enumerated(EnumType.STRING) // check (role_type in ('ADMIN','USER')) : Column안에 들어가는 값이 정해져있는 경우 , 클래스를 만들어서 값을 지정해둠
 @Lob // 대용량 데이터 담기
+
+(bootsource에 jpa쪽 참고)
+@EnableJpaAuditing - jpaApplication에 달아줌 / Auditing 이 발생하도록 함
+-> abstract BaseEntity 클래스 만들고
+@EntityListeners(value = AuditingEntityListener.class) / Auditing이 발생했는지 감지
+@MappedSuperclass / BaseEntity 상속할 경우 필드를 컬럼으로 인식하기
+멤버변수 - 
+@CreatedDate
+@LastModifiedDate
+-> 생성날자와 수정날자를 자동을 달아주고 싶은 클라스에 상속시킴
+
+@OneToMany같은 조인에 씀 cascade = CascadeType.ALL
+orphanRemoval = true -> 부모 엔티티와 연관 관계가 끊어진 자식 엔티티를 자동으로 삭제하는 기능제공
+
+@Transactional : fetch = FetchType.LAZY 일때 쓸만함
+
+@DynamicInsert : 데이터가 존재하는 필드만으로 insert sql 문 생성 / @ColumnDefault("0")와 같이 사용하여 default 값을 넣을 수 있음
 
 
 
