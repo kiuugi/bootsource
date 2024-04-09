@@ -20,6 +20,6 @@ public class TodoDto {
     private Boolean completed;
     private Boolean important;
     private String title;
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 }

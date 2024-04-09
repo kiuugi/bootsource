@@ -7,7 +7,7 @@
       <h4>ToDo</h4>
       <div>
         <a th:href="@{/todo/create}" class="btn btn-success">Todo 추가</a>
-        <a th:href="@{/completed}" class="btn btn-primary">완료 목록</a>
+        <a th:href="@{/todo/done}" class="btn btn-primary">완료 목록</a>
       </div>
     </div>
     <div class="container">
@@ -16,30 +16,39 @@
           Today ToDo
           <div class="small text-danger">미루지 말고 지킵시다!!</div>
         </div>
+        <!-- <div th:text="${list}"></div> 이렇게 리스트가 들어오는지 확인이 가능함 -->
         <ul class="list-group list-group-flush">
-          <li class="list-group-item d-flex align-items-center">
+          <!-- <tr th:each="dto : ${list}"> -->
+          <li class="list-group-item d-flex align-items-center" th:each="dto : ${list}">
             <div class="flex-grow-1 p-1">
-              <input class="form-check-input me-1" type="checkbox" name="completed" />
-              <label class="form-check-label"></label>
+              <input class="form-check-input me-1" type="checkbox" name="completed" th:value="${dto.id}" th:checked="${dto.completed}" />
+              <label class="form-check-label">
+                <a th:href="@{/todo/read(id=${dto.id})}" th:text="${dto.title}" class="text-decoration-none"></a>
+              </label>
               <!-- 중요 의미 : google icon + bootstrap -->
-              <span class="badge rounded-pill text-bg-danger">important</span>
+              <span class="badge rounded-pill text-bg-danger" th:if="${dto.important}">important</span>
             </div>
             <div>
               <!-- 작성날짜 -->
-              <small></small>
+              <small th:text="${#temporals.format(dto.createdDate, 'yyyy-MM-dd')}"></small>
             </div>
           </li>
         </ul>
       </div>
     </div>
     <!-- id 값을 보낼 폼 -->
-    <form method="post" id="completedForm">
+    <form method="post" id="completedForm" th:action="@{update}">
       <input type="hidden" name="id" value="" />
     </form>
   </main>
 
   <th:block layout:fragment="script">
-    <script></script>
-    <script></script>
+    <script>
+      const msg = "[[${msg}]]";
+      if (msg) {
+        alert(msg + " 추가되었습니다.");
+      }
+    </script>
+    <script th:src="@{/js/list.js}"></script>
   </th:block>
 </html>

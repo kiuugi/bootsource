@@ -143,6 +143,10 @@ JPA 연관관계 종류
 
 
 
+serviceImpl 을 먼저 만들고 나중에 추출해서 interface를 만들 수 있음
+interface 에서 public default 을 붙여서 메소드를 만들면 메소드를 구현해서 내리는것이 가능함
+
+* service를 만들었으면 serviceTest를 해보고, repository를 만들었으면 test를 해보자. *
 ## boot
 @Log4j2
 @Component : 스프링 컨테이너가 관리가 필요한 모든 객체에 사용(Controller, Service 의 부모)
@@ -184,7 +188,7 @@ orphanRemoval = true -> 부모 엔티티와 연관 관계가 끊어진 자식 �
 @DynamicInsert : 데이터가 존재하는 필드만으로 insert sql 문 생성 / @ColumnDefault("0")와 같이 사용하여 default 값을 넣을 수 있음
 
 
-
+@Controller , @Service => 프레임 워크가 관리하는 객체라고 알려줌 -> 프레임 워크가 객체를 생성하고 가지고있게됨 -> 필요한 시점에 알아서 생성한 객체를 사용해줌
 
 
 ##lombok##
@@ -225,4 +229,8 @@ th:object="${memberDto}" :  데이터를 템플릿에 바인딩하여 동적으�
 @Email
 @NotEmpty
 @NotBlank
+
+th:if="${dto.important}" if 안쪽이 1(true) 라면 text 표시해줌
+th:if 속성은 해당 조건이 참일 때만 해당 요소를 렌더링하도록 지정함, false 일때는 요소 전체가 안보임
+th:checked 속성은 completed 필드의 값에 따라 체크박스가 체크되거나 체크되지 않도록 합니다
 
