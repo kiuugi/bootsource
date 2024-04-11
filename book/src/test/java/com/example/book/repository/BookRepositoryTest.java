@@ -1,5 +1,10 @@
 package com.example.book.repository;
 
+import static org.mockito.ArgumentMatchers.endsWith;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
@@ -9,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.book.entity.Book;
 import com.example.book.entity.Category;
 import com.example.book.entity.Publisher;
+
+import jakarta.transaction.Transactional;
 
 @SpringBootTest
 public class BookRepositoryTest {
@@ -78,4 +85,43 @@ public class BookRepositoryTest {
                     .build());
         });
     }
+
+    @Test
+    @Transactional
+    public void testBookList() {
+        List<Book> books = bookRepository.findAll();
+
+        books.forEach(book -> {
+            System.out.println(book);
+            System.out.println("출판사 이름 : " + book.getPublisher().getName());
+            System.out.println("카테고리 : " + book.getCategory().getName());
+        });
+    }
+
+    @Test
+    public void searchTest() {
+        List<Book> books = bookRepository.findByCategory(Category.builder().id(1L).build());
+
+        books.forEach(book -> {
+            System.out.println(book);
+            System.out.println("출판사 이름 : " + book.getPublisher().getName());
+            System.out.println("카테고리 : " + book.getCategory().getName());
+        });
+    }
+
+    @Test
+    public void categoryTest() {
+        List<Category> list = categoryRepository.findAll();
+
+        list.forEach(cate -> {
+            System.out.println(cate);
+            System.out.println(cate.getName());
+        });
+        // List<String> cateList = new ArrayList<>();
+        // list.forEach(cate -> cateList.add(cate.getName()));
+        List<String> cateList = list.stream().map(entity -> entity.getName()).collect(Collectors.toList());
+
+        cateList.forEach(System.out::println);
+    }
+
 }
