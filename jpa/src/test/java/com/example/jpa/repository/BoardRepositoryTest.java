@@ -64,8 +64,8 @@ public class BoardRepositoryTest {
 
     @Test
     public void queryMethodTest() {
-        // List<Board> list = boardRepository.findByTitle("Title...27");
-        // list.forEach(System.out::println);
+        List<Board> list = boardRepository.findByTitle("Title", "user7");
+        list.forEach(System.out::println);
         // // where b1_0.title like ? escape '\'
         // list = boardRepository.findByTitleContaining("Title");
         // System.out.println("findByTitleContaining" + list.size());
@@ -79,19 +79,21 @@ public class BoardRepositoryTest {
 
         // list = boardRepository.findByTitleOrContent("Title", "Content");
         // System.out.println("findByTitleOrContent " + list.size());
-        // list = boardRepository.findByTitleContainingOrContentContaining("Title",
-        // "Content");
-        // System.out.println("findByTitleContainingOrContentContaining " +
-        // list.size());
+        list = boardRepository.findByTitleContainingOrContentContaining("Title",
+                "Content");
+        System.out.println("findByTitleContainingOrContentContaining " +
+                list.size());
 
-        // list = boardRepository.findByTitleContainingAndIdGreaterThan("Title", 50L);
-        // System.out.println("findByTitleContainingAndIdGraterThans " + list.size());
+        list = boardRepository.findByTitleContainingAndIdGreaterThan("Title", 50L);
+        System.out.println("findByTitleContainingAndIdGraterThans " + list.size());
         // list = boardRepository.findByIdGreaterThanOrderByIdDesc(50L);
         // System.out.println("findByIdGreaterThanOrderByIdDesc " + list.size());
 
-        Pageable pageable = PageRequest.of(0, 10);
-        List<Board> list = boardRepository.findByIdGreaterThanOrderByIdDesc(50L, pageable);
-        list.forEach(System.out::println);
+        // Pageable pageable = PageRequest.of(0, 10);
+        // List<Board> list = boardRepository.findByIdGreaterThanOrderByIdDesc(50L,
+        // pageable);
+        // list.forEach(System.out::println);
+        boardRepository.findList();
 
     };
 

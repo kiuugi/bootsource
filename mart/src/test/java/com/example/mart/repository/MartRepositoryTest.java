@@ -1,6 +1,7 @@
 package com.example.mart.repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -198,4 +199,25 @@ public class MartRepositoryTest {
         System.out.println("관련 주문" + delivery.getOrder());
 
     }
+
+    @Test
+    public void testJoinTest() {
+        // interface QueryDslOrderRepository -> OrderRepository가 상속
+        // interface QueryDslOrderRepository -> QueryDslOrderRepositoryImpl 메소드 구현
+        List<Object[]> list = orderRepository.joinList();
+        for (Object[] objects : list) {
+            Order order = (Order) objects[0];
+            Member member = (Member) objects[1];
+            OrderItem orderItem = (OrderItem) objects[2];
+            System.out.println(order);
+            System.out.println(member);
+            System.out.println(orderItem);
+        }
+        // Member
+        System.out.println(orderRepository.members()); // memberRepository는 지금 상속 안받은상태라 귀찮아서 order로 받음
+
+        // Item
+        System.out.println(orderRepository.items());
+    }
+
 }

@@ -156,9 +156,18 @@ interface 에서 public default 을 붙여서 메소드를 만들면 메소드�
 3) QueryDSL : JPQL 을 편하게 작성하도록 도와주는 빌더 클래스 모음(비표준 오픈소스 프레임워크
 
 
+QueryDSL
+ 쿼리를 문자가 아닌 코드로 작성해도 쉽고, 간결하며 모양도 쿼리와 비슷하게 개발
+ 다양한 상황에 맞게 쿼리를 생성해야 하는 경우 사용 -> 동적 쿼리
 
+ Querydsl 사용하기
+ 1) QuerydslPredicateExecutor
+ 2) 사용자 정의 인터페이스 설계 후 QueryDsl
 
-
+1) findBy~
+2) @Query("select~")
+3) Querydsl 사용 entity쪽에서 dsl 상속받고
+Repository에서 상속받기 QuerydslPredicateExecutor<Book>
 
 ## boot
 @Log4j2
@@ -211,7 +220,7 @@ th:object="${컨트롤러에 있는 클래스 이름}"
 @Builder
 @RequiredArgsConstructor / @NotNull, final 이 붙은 멤버변수를 대상으로 생성자 생성
 @Builder.Default // 필드에 기본값으로 빈 ArrayList가 할당
-
+@Embeddable : 다른 엔티티에 포함되는 엔티티임
 
 ##Thymeleaf##
 th:text="" 따음표 안에있는 태그는 해석하지 않음

@@ -73,4 +73,15 @@ public class MemoRepositoryTest {
         // 삭제됨Optional.empty
     }
 
+    @Test
+    public void jpqlTest() {
+
+        List<Memo> list = memoRepository.findByMnoLessThan(10L);
+        list.forEach(System.out::println);
+        list = memoRepository.findByMnoLessThanOrderByMnoDesc(20L);
+        list.forEach(System.out::println);
+        list = memoRepository.findByMnoBetween(30L, 50L);
+        list.forEach(System.out::println);
+
+    }
 }

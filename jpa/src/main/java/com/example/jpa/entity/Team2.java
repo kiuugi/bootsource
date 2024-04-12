@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,24 +23,21 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString(exclude = { "members" }) // ToString 생성시 클래스 내 모든 property 가 기준/ exclude 로 제외가능
+@ToString // ToString 생성시 클래스 내 모든 property 가 기준/ exclude 로 제외가능
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class Team {
+@Table(name = "jpql_team")
+public class Team2 {
 
-    @SequenceGenerator(name = "jpql_team_seq_gen", sequenceName = "jpql_team_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jpql_team_seq_gen")
+    @SequenceGenerator(name = "jpql_team2_seq_gen", sequenceName = "jpql_team2_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jpql_team2_seq_gen")
     @Id
     @Column(name = "team_id")
-    private String id;
+    private Long id;
 
     @Column(name = "team_name")
     private String name;
-
-    @Builder.Default
-    @OneToMany(mappedBy = "team", fetch = FetchType.EAGER) // 주체가 누구인지 알려줘야함
-    private List<TeamMember> members = new ArrayList<>();
 
 }
