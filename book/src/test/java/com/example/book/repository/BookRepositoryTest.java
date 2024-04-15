@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
+import com.example.book.dto.PageRequestDto;
 import com.example.book.entity.Book;
 import com.example.book.entity.Category;
 import com.example.book.entity.Publisher;
@@ -32,6 +33,8 @@ public class BookRepositoryTest {
 
     @Autowired
     private PublisherRepository publisherRepository;
+
+    private PageRequestDto pageRequestDto;
 
     @Test
     public void insert() {
@@ -130,7 +133,7 @@ public class BookRepositoryTest {
     }
 
     @Test
-    public void testSearchList() {
+    public void testList() {
         // Spring Data JPA 페이징 처리 객체 (페이지나누기를 편하게 해줌)
         // page 번호 : 0 부터 시작
         // Pageable pageable = PageRequest.of(0, 10);
@@ -141,7 +144,7 @@ public class BookRepositoryTest {
 
         // Page : 페이지 나누기에 필요한 메소드 제공
         // ==> PageDto와 같은 역할
-        Page<Book> result = bookRepository.findAll(bookRepository.makePredicate(), pageable);
+        Page<Book> result = bookRepository.findAll(bookRepository.makePredicate("t", "미술"), pageable);
 
         System.out.println("전체 행 수" + result.getTotalElements());
         System.out.println("필요한 페이지 수 " + result.getTotalPages());

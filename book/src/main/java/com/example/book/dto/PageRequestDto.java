@@ -15,6 +15,10 @@ public class PageRequestDto {
     private int page;
     private int size;
 
+    // 검색
+    private String type;
+    private String keyword;
+
     public PageRequestDto() {
         // defalt 생성자
         this.page = 1;

@@ -1,3 +1,10 @@
+1. 라이브러리
+	- pom/xml , application.properties
+2. 템플릿
+4. entity 설계
+5. entity, repository 작성
+6. test 데이터 삽입 => repository 테스트
+
 
 spring framework
 spring boot
@@ -192,7 +199,7 @@ Repository에서 상속받기 QuerydslPredicateExecutor<Book>
 @Enumerated(EnumType.STRING) // check (role_type in ('ADMIN','USER')) : Column안에 들어가는 값이 정해져있는 경우 , 클래스를 만들어서 값을 지정해둠
 @Lob // 대용량 데이터 담기
 
-(bootsource에 jpa쪽 참고)
+(bootsource에 jpa쪽 참고) / main
 @EnableJpaAuditing - jpaApplication에 달아줌 / Auditing 이 발생하도록 함
 -> abstract BaseEntity 클래스 만들고
 @EntityListeners(value = AuditingEntityListener.class) / Auditing이 발생했는지 감지
