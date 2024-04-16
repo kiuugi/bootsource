@@ -4,6 +4,23 @@
 4. entity 설계
 5. entity, repository 작성
 6. test 데이터 삽입 => repository 테스트
+ simple CRUD
+페이지 나누기 
+
+목록처리
+GET 방식 : /list?page=1&~~~~ 뒤가 기어지면 길어질수록 객체로 받으면 편해짐
+페이지 나누기 정보(클라이언트 요청)를 저장하기 위한 객체 필요해짐 => pageRequestDto
+화면에서 사용할 페이지 나누기 정보 저장 객체 => PageResultDto 
+
+where 절 구문 변화
+1. findBy~ : 동적 쿼리 어려움
+2. @Query() : query 문을 직접 작성, 동적인 쿼리 작성은 어려움
+3. QueryDSL : pom.xml에 DSL 라이브러리 추가
+	1. QuerydslPredicateExecutor<Entity> 상속받기
+		Q 클래스 사용 가능해짐 (Predicate) BooleanBuilder 타입
+		sql 쿼리문을 메소드처럼 호출 가능해짐
+	2. QuerydslRepositorySupport 상속받기
+
 
 
 spring framework
@@ -221,6 +238,8 @@ orphanRemoval = true -> 부모 엔티티와 연관 관계가 끊어진 자식 �
 
 @Valid DTO -> dto에 검증조건을 맞춰서 검증해줌
 th:object="${컨트롤러에 있는 클래스 이름}"
+
+@Valid GuestBookDto guestBookDto, BindingResult result / 순서 지켜야함 @Valid (DTO 유효성검증 하고 앞으로 넘기기), BindinResult
 
 ##lombok##
 @Data
