@@ -20,7 +20,15 @@ where 절 구문 변화
 		Q 클래스 사용 가능해짐 (Predicate) BooleanBuilder 타입
 		sql 쿼리문을 메소드처럼 호출 가능해짐
 	2. QuerydslRepositorySupport 상속받기
+		interface 상속받는 repository에 extends QuerydslRepositorySupport
 
+1. 외래키
+ - 자식 삭제, 부모 삭제
+ - 양방향 @OneToMany : cascading
+
+ - reply
+   부모(원본)글 삭제시 같이 삭제 : bno로 삭제
+   댓글 삭제 : 댓글 Id(rno) 삭제
 
 
 spring framework

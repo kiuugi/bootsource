@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+  <div layout:fragment="content" class="m-5">
+    <h2>Board Create Page</h2>
+    <form action="" method="post" th:object="${guestBookDto}">
+      <div class="mb-3 row">
+        <label for="title" class="col-sm-2 col-form-label">Title</label>
+        <input type="text" class="form-control col-sm-3" id="title" name="title" />
+        <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+      </div>
+      <div class="mb-3 row">
+        <label for="content" class="col-sm-3 col-form-label">Content</label>
+        <textarea class="form-control col-sm-3" id="content" name="content" rows="5"></textarea>
+        <div class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+      </div>
+      <div class="mb-3 row">
+        <label for="writer" class="col-sm-3 col-form-label">Writer</label>
+        <input type="text" class="form-control col-sm-3" id="writer" name="writer" />
+        <div class="text-danger" th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}"></div>
+      </div>
+      <div class="mb-3 justify-content-end">
+        <button class="btn btn-primary" type="submit">만들기</button>
+        <a class="btn btn-secondary" th:href="@{list}">목록</a>
+      </div>
+    </form>
+  </div>
+</html>

@@ -1,0 +1,52 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+  <div layout:fragment="content" class="m-5">
+    <h2>Board Read Page</h2>
+    <form action="" method="post">
+      <div class="mb-3 row">
+        <label for="bno" class="col-sm-3 col-form-label">Bno</label>
+        <input type="text" class="form-control col-sm-3" id="bno" name="bno" th:value="${dto.bno}" readonly />
+      </div>
+      <div class="mb-3 row">
+        <label for="title" class="col-sm-2 col-form-label">Title</label>
+        <input type="text" class="form-control col-sm-3" id="title" name="title" th:value="${dto.title}" readonly />
+      </div>
+      <div class="mb-3 row">
+        <label for="content" class="col-sm-3 col-form-label">Content</label>
+        <textarea class="form-control col-sm-3" id="content" name="content" rows="3" th:text="${dto.content}" readonly></textarea>
+        <!-- textarea는 value가 없어서 th:text 아니면 [[${dto.content}]]사용 -->
+      </div>
+      <div class="mb-3 row">
+        <label for="writerName" class="col-sm-3 col-form-label">WriterName</label>
+        <input type="text" class="form-control col-sm-3" id="writerName" name="writerName" th:value="${dto.writerName}" readonly />
+      </div>
+      <div class="mb-3 row">
+        <label for="createdDate" class="col-sm-3 col-form-label">RegDate</label>
+        <input
+          type="text"
+          class="form-control col-sm-3"
+          id="createdDate"
+          name="createdDate"
+          th:value="${#temporals.format(dto.createdDate, 'yyyy/MM/dd/  HH:mm:ss')}"
+          readonly
+        />
+      </div>
+      <div class="mb-3 row">
+        <label for="lastModifiedDate" class="col-sm-3 col-form-label">UpdateDate</label>
+        <input
+          type="text"
+          class="form-control col-sm-3"
+          id="lastModifiedDate"
+          name="lastModifiedDate"
+          th:value="${#temporals.format(dto.lastModifiedDate, 'yyyy/MM/dd/  HH:mm:ss')}"
+          readonly
+        />
+      </div>
+      <div>
+        <a class="btn btn-primary" th:href="@{modify(bno=${dto.bno})}">수정</a>
+        <!-- , page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword} -->
+        <a class="btn btn-secondary" th:href="@{list}">목록</a>
+        <!-- (page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword}) -->
+      </div>
+    </form>
+  </div>
+</html>
