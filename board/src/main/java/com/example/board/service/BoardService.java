@@ -16,6 +16,8 @@ public interface BoardService {
 
     void removeWithReplies(Long bno);
 
+    Long create(BoardDto dto);
+
     // entity, dto 형변환
     public default BoardDto entityToDto(Board board, Member member, Long replyCount) {
         return BoardDto.builder()

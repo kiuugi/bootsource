@@ -43,15 +43,14 @@
         <!-- name 값이랑 맵핑을 하고있기 때문에 가져가지 않아도 되는 값의 name값만 빼버리면 됨 -->
         <button class="btn btn-primary" type="submit">수정</button>
         <button class="btn btn-danger" type="button">삭제</button>
-        <a class="btn btn-secondary" th:href="@{list}">목록</a>
-        <!-- (page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword}) -->
+        <a class="btn btn-secondary" th:href="@{list(page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword})}">목록</a>
       </div>
     </form>
     <form action="" method="post" id="actionForm">
       <input type="hidden" name="bno" th:value="${dto.bno}" />
-      <!-- <input type="hidden" name="page" th:value="${requestDto.page}" />
+      <input type="hidden" name="page" th:value="${requestDto.page}" />
       <input type="hidden" name="type" th:value="${requestDto.type}" />
-      <input type="hidden" name="keyword" th:value="${requestDto.keyword}" /> -->
+      <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
     </form>
   </div>
   <th:block layout:fragment="script">

@@ -2,8 +2,11 @@
   <div class="border-end bg-white" id="sidebar-wrapper" th:fragment="sidebar">
     <div class="sidebar-heading border-bottom bg-light">Board</div>
     <div class="list-group list-group-flush">
+      <!-- dto에서 기본값을 안주고 여기서 list?page=1&type=&keyword= 이런식으로 초기값을 줄 수도 있음 -->
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/board/list}">목록</a>
+      <!-- (page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword}) -->
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/board/create}">등록</a>
+      <!-- (page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword}) -->
       <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>

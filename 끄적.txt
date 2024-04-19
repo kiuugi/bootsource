@@ -201,6 +201,51 @@ QueryDSL
 3) Querydsl 사용 entity쪽에서 dsl 상속받고
 Repository에서 상속받기 QuerydslPredicateExecutor<Book>
 
+
+REST 기법 
+ Representational State
+GET (/boards/100) == /read?bno=100 + GET
+DELETE (/boards/100)
+
+지금 까지 쓰던 방식 Form 은 GET, POST 방식으로만 가능, REST 방식 불가능
+
+RestController Annotation
+
+
+
+JSON : JavaScript 객체문법 : 서버 - 클라이언트 사이에 데이터 교환시 사용
+자바 스크립트 객체 : {key:value, key:value}
+json : {"key":value, "key":value}
+
+브라우저가 해석가능한 범위 html, css, js, text, img, ... / java는 불가능함
+이걸 json이 자동으로 java를 json으로 변환하는 컨버터를 돌려줌
+
+fetch => ajex 참고
+
+
+
+SSR(server side Rendering) : JSP, thymeleaf
+ - DB 작업, 페이지 작업 후 브라우저 전송 (서버측에서 웹 브라우저를 보여주기위한 모든 처리를 함)
+
+ 데이터만 주고 받기 ==> Ajax(구글맵 한정된 정보만 가져와서 미리 뿌린 후 사용자의 요청에따라 정보를 가져와 뿌림) 
+
+SPA(Single Page Application) 한 페이지로 사이트를 구현
+
+CSR(Client Side Rendering) : react, vue (javascript 기반)
+
+1. Ajax
+ - jQuery : $ajax()
+   DOM : $(".btn") <==> document.querySelector(".btn")
+	자바 스크립트의 성능(복잡성, 브라우저마다 다른 코드, ...) 부분을 보완하기위해 등장 ==> 자바스크립트 성능이 보완됨에따라 사라짐
+
+ - fetch(): get
+	    post == form : post 보내는 방식과 동일하도록 만들어야함 (form , post방식 -> input태그의 name값과 매칭해서 value를 가져옴) form 인코딩 타입 기본값 : enctype="application/x-www-form-urlencoded"
+
+
+ - axios() : node.js 
+ 
+
+
 ## boot
 @Log4j2
 @Component : 스프링 컨테이너가 관리가 필요한 모든 객체에 사용(Controller, Service 의 부모)
@@ -213,6 +258,9 @@ Repository에서 상속받기 QuerydslPredicateExecutor<Book>
 @RequestParam(value = "name", defaultValue = "0") int num1 ==> num1 = ("name") / request에서 넘어오는 파라메터의 이름 지정할 때 사용
 @ModelAttribute("이름") : Dto 객체 이름 지정
 			==  model.addAttribute("page", page); == servlet 에서 forword로 보낼때 쓰던 setAttribute와 같음
+
+
+
 
 @SpringBootTest : 테스트 전용 클래스
 @Test // 테스트 메소드(리턴타입은 void)
@@ -248,6 +296,10 @@ orphanRemoval = true -> 부모 엔티티와 연관 관계가 끊어진 자식 �
 th:object="${컨트롤러에 있는 클래스 이름}"
 
 @Valid GuestBookDto guestBookDto, BindingResult result / 순서 지켜야함 @Valid (DTO 유효성검증 하고 앞으로 넘기기), BindinResult
+
+
+
+
 
 ##lombok##
 @Data

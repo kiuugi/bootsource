@@ -10,6 +10,6 @@ document.querySelector("#searchForm").addEventListener("submit", (e) => {
     alert("검색어를 확인해주세요");
     return;
   }
-  searchForm.action = "/guestbook/list";
+  searchForm.action = "/board/list";
   searchForm.submit();
 });

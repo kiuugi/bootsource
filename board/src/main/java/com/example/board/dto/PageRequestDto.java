@@ -23,6 +23,7 @@ public class PageRequestDto {
         this.size = 10;
         this.type = "";
         this.keyword = "";
+        // 여기서 초기값 안주면 list 들어갈 때 list?page=1&type=&keyword= 이런식으로 주면 됨
     }
 
     // 스프링에서 페이지 나누기 정보 저장객체 => Pageable

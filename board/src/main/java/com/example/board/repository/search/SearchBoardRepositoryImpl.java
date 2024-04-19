@@ -63,7 +63,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
             conditionBuilder.or(board.content.contains(keyword));
         }
         if (type.contains("w")) {
-            conditionBuilder.or(member.email.contains(keyword));
+            conditionBuilder.or(member.name.contains(keyword));
         }
         builder.and(conditionBuilder);
         tuple.where(builder);
