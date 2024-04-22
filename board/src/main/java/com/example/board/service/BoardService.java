@@ -3,6 +3,7 @@ package com.example.board.service;
 import com.example.board.dto.BoardDto;
 import com.example.board.dto.PageRequestDto;
 import com.example.board.dto.PageResultDto;
+import com.example.board.dto.ReplyDto;
 import com.example.board.entity.Board;
 import com.example.board.entity.Member;
 

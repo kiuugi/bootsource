@@ -241,9 +241,56 @@ CSR(Client Side Rendering) : react, vue (javascript 기반)
  - fetch(): get
 	    post == form : post 보내는 방식과 동일하도록 만들어야함 (form , post방식 -> input태그의 name값과 매칭해서 value를 가져옴) form 인코딩 타입 기본값 : enctype="application/x-www-form-urlencoded"
 
+    fetch(`http://localhost:8080/book/new`, {
+        method: "post",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(data), 
+      }) => 비동기 방식 
 
  - axios() : node.js 
  
+
+spring security
+ ==> web
+	1. 주민등록번호 수집 금지
+	2. 비밀번호 암호화
+	3. 회원, 관리자 등급 권한 부여
+	4. 네트워크 공격(sql 인젝션, 세션변조, csrf , ...) 대비
+
+spring security 프로젝트 적용
+1. 모든 요청은 로그인 페이지를 거치도록 설정 됨
+	=> default LoginPage가 동작
+	=> test user 생성
+	   username(id) : user
+	   password : 컨트롤러 로딩 시 변경 됨
+
+2. 로그인 작업 
+	=> http://localhost:8080/login 로그인 페이지 default 경로
+	=> id 역할을 하는 요소의 이름은 반드시 username (변경가능)
+	=> 비밀번호 역할을 하는 요소의 이름은 반드시 password (변경가능)
+	=> get 을 제외한 모든 method는 csrf 값을 포함해야함(csrf disable 하지 않는다면) - csrf(cross-site request forgery) 공격을 막기 위함
+
+	=> 로그인 성공 시 원래 시작했던 페이지로 되돌려 보내 줌
+	=> http://localhost:8080/security/guest 요청ㄱ
+	=> 권한 부여 받았는지 확인
+	=> http://localhost:8080/login 페이지 보여주기
+	=> 로그인 입력 후 인가된 사용자라면 (인가된 정보를 securityContext 저장)
+	=> 시작했던 페이지로 이동(http://localhost:8080/security/guest)
+
+3. 로그아웃 작업
+	=> default LogOutPage가 동작
+	=> http://localhost:8080/login?logout => 자동 응답(session 제거, 쿠키 제거) 처리
+
+4. 접근 제한
+	=> 회원(member, admin, guest, ...)에 대한 요청별 접근 제한
+
+
+
+
+
+@EntityGraph(attributePaths = { "roleSet" }, type = EntityGraphType.LOAD) : LAZY 타입인 요소도 가져와짐
+
+
 
 
 ## boot

@@ -61,29 +61,52 @@ replyForm.addEventListener("submit", (e) => {
 
   const replyer = document.querySelector("#replyer");
   const text = document.querySelector("#text");
+  // 수정인 경우에 값이 들어옴
+  const rno = replyForm.querySelector("#rno");
 
   const data = {
     replyer: replyer.value,
     text: text.value,
     boardId: bno,
+    rno: rno.value,
   };
   console.log(data);
+  if (!rno.value) {
+    // 새 댓글 등록
+    fetch(`/replies/new`, {
+      method: "post",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        if (data) {
+          alert(data + "번 댓글을" + bno + "번 글에 댓글 등록");
+          //repltForm 내용 제거
+          replyer.value = "";
+          text.value = "";
+          replyList();
+        }
+      });
+  } else {
+    // 댓들 수정
+    fetch(`/replies/${rno.value}`, {
+      method: "put",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        alert(data + "번 댓글 수정");
 
-  fetch(`/replies/new`, {
-    method: "post",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.text())
-    .then((data) => {
-      if (data) {
-        alert(data + "번 댓글을" + bno + "번 글에 댓글 등록");
-        //repltForm 내용 제거
+        // repltForm 내용 제거
         replyer.value = "";
         text.value = "";
+        rno.value = "";
+
         replyList();
-      }
-    });
+      });
+  }
 });
 
 // 댓글 삭제 버튼 클릭 시 fetch(비동기) 방식으로 오는 html 요소는 바로 접근이 불가능함 에초에 안됨
@@ -99,23 +122,33 @@ replyForm.addEventListener("submit", (e) => {
 // 이벤트 전파로 찾아오기 - 실제 이벤트가 일어난 대상은 누구인가
 document.querySelector(".replyList").addEventListener("click", (e) => {
   const btn = e.target;
+  console.log(btn);
 
   // closest("요소") - 가장 가까운 상위요소 찾기
   const rno = btn.closest(".reply-row").dataset.rno; // data-* 로 작성된 값 불러오기 dataset.*
   console.log("rno", rno);
-  //   document.querySelectorAll(".btn-outline-danger").forEach((link) => { 이렇게 부모를 찾아놓은 상태로 fatch방식으로 넘어온 html을 찾으면 찾아지긴함
-  //     link.addEventListener("click", (e) => {
-  //       console.log("삭제클릭");
-  //       const rno = document.querySelector(".justify-content-between").dataset.rno;
-  //       console.log(rno);
-  //     });
-  //   });
-  fetch(`/replies/${rno}`, { method: "delete" })
-    .then((response) => response.text())
-    .then((data) => {
-      if (data == "success") {
-        alert("댓글 삭제 성공");
-        replyList();
-      }
-    });
+
+  // 삭제 or 수정 버튼이 눌러졌을 때만 동작
+  // 삭제 or 수정 버튼이 클릭이 되었는지 구분하기
+  if (btn.classList.contains("btn-outline-danger")) {
+    fetch(`/replies/${rno}`, { method: "delete" })
+      .then((response) => response.text())
+      .then((data) => {
+        if (data == "success") {
+          alert("댓글 삭제 성공");
+          replyList();
+        }
+      });
+  } else if (btn.classList.contains("btn-outline-success")) {
+    // rno 에 해당하는 댓글 가져온 후 댓글 등록 폼에 가져온 내용 보여주기
+    fetch(`/replies/${rno}`, { method: "get" })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("데이터 가져오기 ");
+        console.log(data);
+        replyForm.querySelector("#rno").value = data.rno;
+        replyForm.querySelector("#replyer").value = data.replyer;
+        replyForm.querySelector("#text").value = data.text;
+      });
+  }
 });

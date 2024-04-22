@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.4</version>
+		<version>3.2.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>board</artifactId>
+	<artifactId>club</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>board</name>
+	<name>club</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
@@ -33,6 +33,33 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+				<!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa -->
+		<!-- querydsl 프로젝트에서 생성한 엔티티 기반으로 taget밑에 파일이 만들어짐 -->
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>5.0.0</version>
+			<classifier>jakarta</classifier>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-apt -->
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+			<version>5.0.0</version>
+			<classifier>jakarta</classifier>
+		</dependency>
+		<!-- thymeleaf -->
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5 스프링 시큐리티 태그 -->
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -55,34 +82,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa -->
-		<!-- querydsl 프로젝트에서 생성한 엔티티 기반으로 taget밑에 파일이 만들어짐 -->
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-jpa</artifactId>
-			<version>5.0.0</version>
-			<classifier>jakarta</classifier>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-apt -->
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-apt</artifactId>
-			<version>5.0.0</version>
-			<classifier>jakarta</classifier>
-		</dependency>
-		<!-- thymeleaf -->
-		<dependency>
-			<groupId>nz.net.ultraq.thymeleaf</groupId>
-			<artifactId>thymeleaf-layout-dialect</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
