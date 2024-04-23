@@ -122,7 +122,7 @@ replyForm.addEventListener("submit", (e) => {
 // 이벤트 전파로 찾아오기 - 실제 이벤트가 일어난 대상은 누구인가
 document.querySelector(".replyList").addEventListener("click", (e) => {
   const btn = e.target;
-  console.log(btn);
+  console.log(btn); // <button class="btn btn-outline-danger bth-sm">삭제</button>
 
   // closest("요소") - 가장 가까운 상위요소 찾기
   const rno = btn.closest(".reply-row").dataset.rno; // data-* 로 작성된 값 불러오기 dataset.*

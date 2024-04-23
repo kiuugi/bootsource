@@ -35,7 +35,8 @@ public class SecurityConfig {
                 // .passwordParameter("pwd") password 요소 이름 변경시
                 // .successForwardUrl("/") 로그인 성공 후 가야할 곳 지정
 
-                .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) // /member/logout에
+                                                                                                           // 접근하면 로그아웃
                         .logoutSuccessUrl("/") // default 로그인 페이지임
                 ); // custiomlogout
 

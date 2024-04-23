@@ -57,4 +57,5 @@ public class ClubRepositoryTest {
     public void testFind() {
         System.out.println(clubMemberRepository.findByEmailAndFromSocial("user95@email", false).get());
     }
+
 }

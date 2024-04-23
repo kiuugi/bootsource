@@ -16,4 +16,5 @@ public interface ClubMemberRepository extends JpaRepository<ClubMember, String> 
     @Query("select m from ClubMember m where m.email = :email and m.fromSocial= :social")
     Optional<ClubMember> findByEmailAndFromSocial(String email, boolean social);
     // left join club_member_role_set rs1_0 on cm1_0.email=rs1_0.club_member_email
+
 }

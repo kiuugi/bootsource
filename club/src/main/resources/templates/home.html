@@ -14,14 +14,23 @@
   <body>
     <div class="container m-5">
       <h1>HOME</h1>
-      <div class="my-3">
-        <a href="/club/member">MEMBER</a>
+      <div class="my-3" sec:authorize="!isAuthenticated()">
+        <a href="/club/member/login">LOGIN</a>
+      </div>
+      <div class="my-3" sec:authorize="!isAuthenticated()">
+        <a href="/club/member/register">REGISTER/회원가입</a>
+      </div>
+      <div class="my-3" sec:authorize="isAuthenticated()">
+        <a href="/club/member/logout">LOGOUT</a>
       </div>
       <div class="my-3">
-        <a href="/club/manager">MANAGER</a>
+        <a href="/club/member" sec:authorize="hasRole('ROLE_USER')">MEMBER</a>
       </div>
       <div class="my-3">
-        <a href="/club/admin">ADMIN</a>
+        <a href="/club/manager" sec:authorize="hasRole('ROLE_MANAGER')">MANAGER</a>
+      </div>
+      <div class="my-3">
+        <a href="/club/admin" sec:authorize="hasRole('ROLE_ADMIN')">ADMIN</a>
       </div>
     </div>
   </body>

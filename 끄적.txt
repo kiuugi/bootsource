@@ -284,7 +284,7 @@ spring security 프로젝트 적용
 4. 접근 제한
 	=> 회원(member, admin, guest, ...)에 대한 요청별 접근 제한
 
-
+- 로그인 성공시 Authentication 객체가 넘어옴 security에서 해줌
 
 
 
