@@ -2,11 +2,14 @@
   <div layout:fragment="content" class="m-5">
     <h2>Board register Page</h2>
     <form th:action="@{register}" method="post" th:object="${memberDto}" novalidate>
+      <!-- html로 alert 띄우기 -->
+      <div class="alert alert-danger" th:if="${dupEmail}">[[${dupEmail}]]</div>
       <div class="mb-3 row">
         <label for="email" class="col-sm-2 col-form-label">email</label>
         <input type="email" class="form-control col-sm-3" id="email" name="email" th:value="${memberDto.email}" />
         <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-        <div class="text-danger" id="error" th:if="${error}" th:text="${error}"></div>
+        <!-- input 밑에 text로 띄우기 -->
+        <div class="text-danger" th:if="${dupEmail}" th:text="${dupEmail}"></div>
       </div>
       <div class="mb-3 row">
         <label for="password" class="col-sm-3 col-form-label">password</label>
@@ -25,9 +28,9 @@
   </div>
   <th:block layout:fragment="script">
     <script>
-      const error = `[[${error}]]`;
-      if (error) {
-        alert(error)
+      const dupEmail = `[[${dupEmail}]]`; // script로 alert 띄우기
+      if (dupEmail) {
+        alert(dupEmail)
       }
     </script>
   </th:block>

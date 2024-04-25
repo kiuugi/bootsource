@@ -47,8 +47,8 @@ public class MemberDetailService implements UserDetailsService, MemberService {
     }
 
     @Override
-    public void register(MemberDto insertDto) throws IllegalStateException {
-
+    public void register(MemberDto insertDto) throws Exception {
+        // class에 붙여줘서 exception을 날릴수 있음을 명시 throws IllegalStateException
         validateDuplicationMember(insertDto.getEmail());
         // try {
         // 중복 이메일 검사 /중복으로 들어오면 save 할 때 insert가 아니라 update가 나음
@@ -67,10 +67,13 @@ public class MemberDetailService implements UserDetailsService, MemberService {
     }
 
     // 애초에 회원 가입DB에 넣지도 안았는데 find 돌렸더니 나오면 중복이지
-    private void validateDuplicationMember(String email) {
+    private void validateDuplicationMember(String email) throws Exception {
         Optional<Member> member = memberRepository.findById(email);
         if (member.isPresent()) {
+            // throw : 강제 exception 발생
             throw new IllegalStateException("이미 가입된 회원입니다.");
+            // throw new Exception(""); => throws Exception을 class에 붙이던지, try catch를 할지
+            // 명시해야함
         }
     }
 

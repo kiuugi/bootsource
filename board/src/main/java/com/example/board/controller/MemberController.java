@@ -53,10 +53,10 @@ public class MemberController {
         try {
             service.register(memberDto);
         } catch (Exception e) {
-            // log.info("에러 {}", e);
-
+            log.info("에러 {}", e.getMessage());
             // e.printStackTrace();
-            rttr.addFlashAttribute("error", e.getMessage());
+            rttr.addFlashAttribute("dupEmail", e.getMessage()); // session에 잠시 담김
+            // rttr.addAttribute("dupEmail", e.getMessage()); 주소줄에 딸려 보냄
             return "redirect:/member/register";
         }
 
