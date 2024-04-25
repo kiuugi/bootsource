@@ -1,5 +1,6 @@
 package com.example.board.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +28,7 @@ public class BoardController {
 
     private final BoardService service;
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/list")
     public void getList(@ModelAttribute("requestDto") PageRequestDto requestDto, Model model) {
         log.info("list 요청");
@@ -41,6 +43,7 @@ public class BoardController {
         model.addAttribute("dto", service.getRow(bno));
     }
 
+    @PreAuthorize("authentication.name == #dto.writerEmail")
     @PostMapping("/modify")
     public String postModify(BoardDto dto, RedirectAttributes rttr,
             @ModelAttribute("requestDto") PageRequestDto requestDto) {
@@ -53,8 +56,9 @@ public class BoardController {
         return "redirect:/board/read";
     }
 
+    @PreAuthorize("authentication.name == #writerEmail")
     @PostMapping("/delete")
-    public String getRemoveWithReplies(@RequestParam Long bno, RedirectAttributes rttr,
+    public String getRemoveWithReplies(String writerEmail, @RequestParam Long bno, RedirectAttributes rttr,
             @ModelAttribute("requestDto") PageRequestDto requestDto) {
         log.info("getRemoveWithReplies 요청");
         service.removeWithReplies(bno);
@@ -65,15 +69,19 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public void getCreate(BoardDto boardDto, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         log.info("create 요청");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String postCreate(@Valid BoardDto boardDto, BindingResult result, RedirectAttributes rttr,
             @ModelAttribute("requestDto") PageRequestDto requestDto) {
-        log.info("create post 요청");
+
+        log.info("create post 요청" + boardDto);
+
         if (result.hasErrors()) {
             return "/board/create";
         }

@@ -20,7 +20,8 @@ public class ReplyDto {
 
     private String text; // 댓글 내용
 
-    private String replyer; // 댓글 작성자
+    private String writerEmail; // 작성자 @Id
+    private String writerName; // 작성자 이름
 
     private Long boardId;
 

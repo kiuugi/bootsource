@@ -1,25 +1,34 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layouts/layout}">
   <div layout:fragment="content" class="m-5">
     <h2>Board register Page</h2>
-    <form action="" method="post" novalidate>
+    <form th:action="@{register}" method="post" th:object="${memberDto}" novalidate>
       <div class="mb-3 row">
         <label for="email" class="col-sm-2 col-form-label">email</label>
-        <input type="email" class="form-control col-sm-3" id="email" name="email" />
-        <!-- <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div> -->
+        <input type="email" class="form-control col-sm-3" id="email" name="email" th:value="${memberDto.email}" />
+        <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+        <div class="text-danger" id="error" th:if="${error}" th:text="${error}"></div>
       </div>
       <div class="mb-3 row">
         <label for="password" class="col-sm-3 col-form-label">password</label>
-        <input class="form-control col-sm-3" id="password" name="password" type="password"></input>
-        <!-- <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div> -->
+        <input class="form-control col-sm-3" id="password" name="password" type="password" th:value="${memberDto.password}"></input>
+        <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
       </div>
       <div class="mb-3 row">
         <label for="name" class="col-sm-3 col-form-label">name</label>
-        <input type="text" class="form-control col-sm-3" id="name" name="name" />
-        <!-- <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>  -->
+        <input type="text" class="form-control col-sm-3" id="name" name="name" th:value="${memberDto.name}"/>
+        <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div> 
       </div>
       <div class="mb-3 justify-content-end">
         <button class="btn btn-primary" type="submit">만들기</button>
       </div>
     </form>
   </div>
+  <th:block layout:fragment="script">
+    <script>
+      const error = `[[${error}]]`;
+      if (error) {
+        alert(error)
+      }
+    </script>
+  </th:block>
 </html>

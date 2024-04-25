@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
   <div layout:fragment="content" class="m-5">
     <h2>Board Modify Page</h2>
-    <form action="" method="post">
+    <form th:action="@{modify}" method="post">
       <div class="mb-3 row">
         <label for="gno" class="col-sm-3 col-form-label">Bno</label>
         <input type="text" class="form-control col-sm-3" id="bno" name="bno" th:value="${dto.bno}" readonly />
@@ -41,16 +41,18 @@
       </div>
       <div>
         <!-- name 값이랑 맵핑을 하고있기 때문에 가져가지 않아도 되는 값의 name값만 빼버리면 됨 -->
-        <button class="btn btn-primary" type="submit">수정</button>
-        <button class="btn btn-danger" type="button">삭제</button>
+        <button class="btn btn-primary" type="submit" th:if="${#authentication.name} == ${dto.writerEmail}">수정</button>
+        <button class="btn btn-danger" type="button" th:if="${#authentication.name} == ${dto.writerEmail}" s>삭제</button>
         <a class="btn btn-secondary" th:href="@{list(page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword})}">목록</a>
       </div>
+      <input type="hidden" name="writerEmail" th:value="${dto.writerEmail}" />
     </form>
-    <form action="" method="post" id="actionForm">
+    <form th:action="@{delete}" method="post" id="actionForm">
       <input type="hidden" name="bno" th:value="${dto.bno}" />
       <input type="hidden" name="page" th:value="${requestDto.page}" />
       <input type="hidden" name="type" th:value="${requestDto.type}" />
       <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
+      <input type="hidden" name="writerEmail" th:value="${dto.writerEmail}" />
     </form>
   </div>
   <th:block layout:fragment="script">

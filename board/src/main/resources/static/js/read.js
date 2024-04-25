@@ -39,12 +39,15 @@ const replyList = () => {
         // 영역에 result 보여주기
         result += `<div class="d-flex justify-content-between my-2 border-bottom reply-row" data-rno="${reply.rno}">`;
         result += `<div class="p-3"><img src="/img/default.png" alt="" class="reounded-circle mx-auto d-block" style="width: 60px; height: 60px" /></div>`;
-        result += `<div class="flex-grow-1 align-self-center"><div>${reply.replyer}</div>`;
+        result += `<div class="flex-grow-1 align-self-center"><div>${reply.writerName}</div>`;
         result += `<div><span class="fs-5">${reply.text}</span></div>`;
         result += `<div class="text-muted"><span class="small">${formateDate(reply.createdDate)}</span></div></div>`;
-        result += `<div class="d-flex flex-column align-self-center"><div class="mb-2"><button class="btn btn-outline-danger bth-sm">삭제</button></div>`;
-        result += `<div><button class="btn btn-outline-success bth-sm">수정</button></div>`;
-        result += `</div></div>`;
+        // 로그인 user == 작성자 th:if="${email} == ${reply.writerEmail}"
+        if (`${email}` == `${reply.writerEmail}`) {
+          result += `<div class="d-flex flex-column align-self-center" ><div class="mb-2"><button class="btn btn-outline-danger bth-sm">삭제</button></div>`;
+          result += `<div><button class="btn btn-outline-success bth-sm">수정</button></div></div>`;
+        }
+        result += `</div>`;
       });
       replyList.innerHTML = result;
     });
@@ -56,58 +59,60 @@ replyList();
 // 등록 버튼 submit 시
 // submit 기능 중지/ 작성자 / 댓글 가져오기 => 스크립트 객체로 변경
 const replyForm = document.querySelector("#replyForm");
-replyForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+// repltForm이 존재할때
+if (replyForm) {
+  replyForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  const replyer = document.querySelector("#replyer");
-  const text = document.querySelector("#text");
-  // 수정인 경우에 값이 들어옴
-  const rno = replyForm.querySelector("#rno");
+    const writerEmail = document.querySelector("#writerEmail");
+    const text = document.querySelector("#text");
+    // 수정인 경우에 값이 들어옴
+    const rno = replyForm.querySelector("#rno");
 
-  const data = {
-    replyer: replyer.value,
-    text: text.value,
-    boardId: bno,
-    rno: rno.value,
-  };
-  console.log(data);
-  if (!rno.value) {
-    // 새 댓글 등록
-    fetch(`/replies/new`, {
-      method: "post",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        if (data) {
-          alert(data + "번 댓글을" + bno + "번 글에 댓글 등록");
-          //repltForm 내용 제거
-          replyer.value = "";
+    const data = {
+      writerEmail: writerEmail.value,
+      text: text.value,
+      boardId: bno,
+      rno: rno.value,
+    };
+    console.log(data);
+    if (!rno.value) {
+      // 새 댓글 등록
+      fetch(`/replies/new`, {
+        method: "post",
+        headers: { "content-type": "application/json", "X-CSRF-TOKEN": csrfValue },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          if (data) {
+            alert(data + "번 댓글을" + bno + "번 글에 댓글 등록");
+            //repltForm 내용 제거
+            text.value = "";
+            // rno.value = "";
+            replyList();
+          }
+        });
+    } else {
+      // 댓들 수정
+      fetch(`/replies/${rno.value}`, {
+        method: "put",
+        headers: { "content-type": "application/json", "X-CSRF-TOKEN": csrfValue },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          alert(data + "번 댓글 수정");
+
+          // repltForm 내용 제거
           text.value = "";
+          rno.value = "";
+
           replyList();
-        }
-      });
-  } else {
-    // 댓들 수정
-    fetch(`/replies/${rno.value}`, {
-      method: "put",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        alert(data + "번 댓글 수정");
-
-        // repltForm 내용 제거
-        replyer.value = "";
-        text.value = "";
-        rno.value = "";
-
-        replyList();
-      });
-  }
-});
+        });
+    }
+  });
+}
 
 // 댓글 삭제 버튼 클릭 시 fetch(비동기) 방식으로 오는 html 요소는 바로 접근이 불가능함 에초에 안됨
 // rno 가져오기
@@ -131,7 +136,7 @@ document.querySelector(".replyList").addEventListener("click", (e) => {
   // 삭제 or 수정 버튼이 눌러졌을 때만 동작
   // 삭제 or 수정 버튼이 클릭이 되었는지 구분하기
   if (btn.classList.contains("btn-outline-danger")) {
-    fetch(`/replies/${rno}`, { method: "delete" })
+    fetch(`/replies/${rno}`, { method: "delete", headers: { "X-CSRF-TOKEN": csrfValue } })
       .then((response) => response.text())
       .then((data) => {
         if (data == "success") {
@@ -147,7 +152,8 @@ document.querySelector(".replyList").addEventListener("click", (e) => {
         console.log("데이터 가져오기 ");
         console.log(data);
         replyForm.querySelector("#rno").value = data.rno;
-        replyForm.querySelector("#replyer").value = data.replyer;
+        replyForm.querySelector("#writerEmail").value = data.writerEmail;
+        replyForm.querySelector("#writerName").value = data.writerName;
         replyForm.querySelector("#text").value = data.text;
       });
   }

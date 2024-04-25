@@ -292,6 +292,14 @@ spring security 프로젝트 적용
 
 
 
+65cc518a7b2f4dda4e3a30fc812a0b5e2df1f0db
+
+403 에러나서 권한이 없을때 csrf를 줬는지 확인하자
+"X-CSRF-TOKEN": csrfValue , th:action="@{}" 
+
+
+
+
 
 ## boot
 @Log4j2

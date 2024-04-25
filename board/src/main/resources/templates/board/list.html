@@ -4,7 +4,7 @@
       Board List Page
       <span>
         <a th:href="@{create(page=1, type=${requestDto.type}, keyword=${requestDto.keyword})}">
-          <button class="btn btn-outline-primary">REGISTER</button>
+          <button class="btn btn-outline-primary" sec:authorize="isAuthenticated()">REGISTER</button>
         </a>
       </span>
     </h2>

@@ -1,7 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
   <div layout:fragment="content" class="m-5">
     <h2>Board Create Page</h2>
-    <form action="" method="post" th:object="${boardDto}">
+    <!-- method get 을 제외한 모든 요청에는 csrf 토큰 값이 포함되어야한다. : thymeleaf 자동으로 csrf 토큰 값 삽입 해 줌
+         단 action 에 값을 넣는 경우에만  -->
+    <form th:action="@{create}" method="post" th:object="${boardDto}">
       <div class="mb-3 row">
         <label for="title" class="col-sm-2 col-form-label">Title</label>
         <input type="text" class="form-control col-sm-3" id="title" name="title" />
@@ -14,7 +16,7 @@
       </div>
       <div class="mb-3 row">
         <label for="writerEmail" class="col-sm-3 col-form-label">writerEmail</label>
-        <input type="email" class="form-control col-sm-3" id="writerEmail" name="writerEmail" />
+        <input type="email" class="form-control col-sm-3" id="writerEmail" name="writerEmail" th:value="${#authentication.name}" readonly />
         <div class="text-danger" th:if="${#fields.hasErrors('writerEmail')}" th:errors="*{writerEmail}"></div>
       </div>
       <div class="mb-3 justify-content-end">

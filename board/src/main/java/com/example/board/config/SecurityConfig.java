@@ -21,6 +21,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
                 // .requestMatchers("/static/**", "/css/*", "/assets/*", "/img/*",
                 // "/js/*").permitAll()
+                .requestMatchers("/board/read").permitAll()
+                .requestMatchers("/board/modify").authenticated()
                 .anyRequest().permitAll()) // authenticated()) // 모든 리퀘스트 인증받기
                 .formLogin(login -> login.loginPage("/member/login").permitAll())
                 .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
