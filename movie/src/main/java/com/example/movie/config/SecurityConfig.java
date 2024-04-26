@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .formLogin(login -> login.loginPage("/member/login").permitAll())
                 .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                         .logoutSuccessUrl("/"));
+        http.csrf(csrf -> csrf.disable()); // csrf 필터 비활성화
         return http.build();
     }
 

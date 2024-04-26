@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 파일 업로드  서버에 파일을 올리기 위한 설정작업 필요 -->
+    <!-- <form action="" method="post" enctype="multipart/form-data"> -->
+    <!-- <input type="text" name="" id="" multiple /> -->
+    <!-- </form> -->
+    <input type="file" name="files" id="" multiple />
+    <button class="uploadBtn">업로드</button>
+    <script>
+      document.querySelector(".uploadBtn").addEventListener("click", (e) => {
+        // files 에 있는 파일 목록을 가져와서 폼 형태로 만들기
+        const inputFile = document.querySelector("[name='files']");
+        console.log(inputFile); // <input type="file" name="files" id="" multiple /> 태그가 가져와짐
+
+        const files = inputFile.files;
+        console.log("files");
+        console.log(files); // FileList {0: File, 1: File, length: 2}
+
+        // 스크립트에서 폼 태그 작성
+        const formData = new FormData();
+        for (let index = 0; index < files.length; index++) {
+          formData.append("uploadFiles", files[index]);
+        }
+        console.log(formData.innerHTML);
+
+        // for (const key of formData.keys()) {
+        //   console.log(key);
+        // }
+
+        // for (const value of formData.values()) {
+        //   console.log(value);
+        // }
+
+        fetch("/upload/uploadAjax", {
+          method: "post",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+          });
+      });
+    </script>
+  </body>
+</html>

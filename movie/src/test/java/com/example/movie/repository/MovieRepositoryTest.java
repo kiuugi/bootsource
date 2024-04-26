@@ -1,6 +1,7 @@
 package com.example.movie.repository;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -17,6 +18,9 @@ import com.example.movie.entity.Member;
 import com.example.movie.entity.Movie;
 import com.example.movie.entity.MovieImage;
 import com.example.movie.entity.Review;
+
+import jakarta.transaction.Transactional;
+import oracle.net.aso.m;
 
 @SpringBootTest
 public class MovieRepositoryTest {
@@ -107,4 +111,25 @@ public class MovieRepositoryTest {
             System.out.println(Arrays.toString(objects));
         }
     }
+
+    @Test
+    public void movieGetTest() {
+        List<Object[]> result = movieImageRepository.getRead(1L);
+        for (Object[] objects : result) {
+            System.out.println(Arrays.toString(objects));
+        }
+    }
+
+    @Transactional
+    @Test
+    public void movieRemoveTest() {
+        Movie movie = Movie.builder().mno(2L).build();
+        // 이미지 삭제
+        movieImageRepository.deleteByMovie(movie);
+        // 리뷰삭제
+        reviewRepository.deleteByMovie(movie);
+        // 영화 삭제
+        movieRepository.delete(movie);
+    }
+
 }

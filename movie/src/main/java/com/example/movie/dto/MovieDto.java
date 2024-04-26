@@ -30,6 +30,6 @@ public class MovieDto {
     private Long reviewCnt; // 리뷰 갯수
 
     // 영화 이미지 리스트
-    @Builder.Default
+    @Builder.Default // Builder 를 쓰면
     private List<MovieImageDto> movieImageDtos = new ArrayList<>();
 }

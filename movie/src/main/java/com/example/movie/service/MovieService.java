@@ -14,6 +14,10 @@ public interface MovieService {
 
     PageResultDto<MovieDto, Object[]> getList(PageRequestDto pageRequestDto);
 
+    MovieDto getRow(Long mno);
+
+    void movieRemove(Long mno);
+
     // [Movie(mno=94, title=Movie94), MovieImage(inum=299,
     // uuid=215f145d-466b-45f3-a589-729e9881b882, imgname=img0.jpg, path=null), 1,
     // 5.0]
@@ -24,7 +28,7 @@ public interface MovieService {
                 .title(movie.getTitle())
                 .createdDate(movie.getCreatedDate())
                 .lastModifiedDate(movie.getLastModifiedDate())
-                .avg(avg)
+                .avg(avg != null ? avg : 0.0d)
                 .reviewCnt(reviewCnt)
                 .build();
 
@@ -37,6 +41,7 @@ public interface MovieService {
                     .path(movieImage.getPath())
                     .build();
         }).collect(Collectors.toList());
+
         movieDto.setMovieImageDtos(movieImageDtos);
 
         return movieDto;
