@@ -18,6 +18,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MovieDto {
+
     private Long mno;
 
     private String title;

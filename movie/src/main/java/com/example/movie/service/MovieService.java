@@ -1,6 +1,9 @@
 package com.example.movie.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.example.movie.dto.MovieDto;
@@ -17,6 +20,8 @@ public interface MovieService {
     MovieDto getRow(Long mno);
 
     void movieRemove(Long mno);
+
+    Long movieInsert(MovieDto movieDto);
 
     // [Movie(mno=94, title=Movie94), MovieImage(inum=299,
     // uuid=215f145d-466b-45f3-a589-729e9881b882, imgname=img0.jpg, path=null), 1,
@@ -47,15 +52,48 @@ public interface MovieService {
         return movieDto;
     }
 
-    public default Movie dtoToEntity(MovieDto dto) {
-        // Member member = Member.builder().email(dto.getWriterEmail()).build();
-        // return Board.builder()
-        // .bno(dto.getBno())
-        // .title(dto.getTitle())
-        // .writer(member)
-        // .content(dto.getContent())
+    public default Map<String, Object> dtoToEntity(MovieDto dto) {
+
+        Map<String, Object> entityMap = new HashMap<>();
+
+        // Movie Entity 생성
+        Movie movie = Movie.builder()
+                .mno(dto.getMno())
+                .title(dto.getTitle())
+                .build();
+        // 생성된 movie entity 를 map 에 담기
+        entityMap.put("movie", movie);
+
+        // List<MovieImageDto> movieImageDtos 를 List<Movie> 변환
+        List<MovieImageDto> movieImageDtos = dto.getMovieImageDtos();
+        List<MovieImage> movieImages = new ArrayList<>();
+        if (movieImageDtos != null && movieImageDtos.size() > 0) {
+            for (MovieImageDto mDto : movieImageDtos) {
+                MovieImage movieImage = MovieImage.builder()
+                        .movie(movie)
+                        .imgname(mDto.getImgname())
+                        .uuid(mDto.getUuid())
+                        .path(mDto.getPath())
+                        .build();
+                movieImages.add(movieImage);
+            }
+        }
+        // 변환이 끝난 entity list 를 map 담기 : put
+        entityMap.put("imgList", movieImages);
+
+        // if (movieImageDtos != null && movieImageDtos.size() > 0) {
+        // List<MovieImage> movieImages = movieImageDtos.stream().map(mDto ->{
+        // MovieImage movieImage = MovieImage.builder()
+        // .imgname(mDto.getImgname())
+        // .uuid(mDto.getUuid())
+        // .path(mDto.getPath())
         // .build();
-        return null;
+        // return movieImage;
+        // }).collect(Collectors.toList());
+
+        // }
+
+        return entityMap;
     }
 
 }

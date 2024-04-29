@@ -15,6 +15,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Log4j2
@@ -42,6 +43,23 @@ public class MovieController {
     public String postRemove(@RequestParam Long mno) {
         log.info("remove 요청 {}", mno);
         service.movieRemove(mno);
+        return "redirect:/movie/list";
+    }
+
+    @GetMapping("/register")
+    public void getRegister() {
+        log.info("영화 등록 폼 요청 register");
+    }
+
+    @PostMapping("/register")
+    public String postMethodName(MovieDto movieDto, RedirectAttributes rttr) {
+        log.info("영화 등록 {}", movieDto);
+
+        // 서비스 호출
+        Long mno = service.movieInsert(movieDto);
+
+        // mno 넘기기
+        rttr.addFlashAttribute("msg", mno);
         return "redirect:/movie/list";
     }
 
