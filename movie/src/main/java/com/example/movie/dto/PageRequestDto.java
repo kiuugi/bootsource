@@ -21,8 +21,8 @@ public class PageRequestDto {
     public PageRequestDto() {
         this.page = 1;
         this.size = 10;
-        // this.type = "";
-        // this.keyword = "";
+        this.type = "";
+        this.keyword = "";
         // 여기서 초기값 안주면 list 들어갈 때 list?page=1&type=&keyword= 이런식으로 주면 됨
     }
 

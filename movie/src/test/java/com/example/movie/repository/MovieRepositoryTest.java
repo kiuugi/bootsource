@@ -11,14 +11,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.movie.constant.MemberRole;
+import com.example.movie.dto.PageRequestDto;
 import com.example.movie.entity.Member;
 import com.example.movie.entity.Movie;
 import com.example.movie.entity.MovieImage;
 import com.example.movie.entity.Review;
 
+import jakarta.persistence.Entity;
 import jakarta.transaction.Transactional;
 import oracle.net.aso.m;
 
@@ -104,8 +108,15 @@ public class MovieRepositoryTest {
 
     @Test
     public void moviImageListTest() {
-        PageRequest pageRequest = PageRequest.of(0, 10);
-        Page<Object[]> list = movieImageRepository.getTotalList(pageRequest);
+        PageRequestDto pageRequestDto = PageRequestDto.builder()
+                .type("t")
+                .keyword("Movie")
+                .page(7)
+                .size(10)
+                .build();
+
+        Page<Object[]> list = movieImageRepository.getTotalList(pageRequestDto.getType(), pageRequestDto.getKeyword(),
+                pageRequestDto.getPageable(Sort.by("mno").descending()));
 
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));
@@ -130,6 +141,23 @@ public class MovieRepositoryTest {
         reviewRepository.deleteByMovie(movie);
         // 영화 삭제
         movieRepository.delete(movie);
+    }
+
+    // @Transactional
+    @Test
+    public void testReviews() {
+        Movie movie = Movie.builder().mno(99L).build();
+
+        List<Review> reviews = reviewRepository.findByMovie(movie);
+
+        // fetch = FetchType.LAZY : select review table 만 실행
+
+        reviews.forEach(review -> {
+            System.out.println(review);
+            System.out.println(review.getMember().getEmail());
+            System.out.println(review.getMember().getNickname());
+        });
+
     }
 
 }

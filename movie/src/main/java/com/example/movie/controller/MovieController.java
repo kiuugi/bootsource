@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Log4j2
 @Controller
@@ -39,24 +40,54 @@ public class MovieController {
         model.addAttribute("dto", service.getRow(mno));
     }
 
+    @PostMapping("/modify")
+    public String postModify(MovieDto movieDto, RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto requestDto) {
+        log.info("movie 수정 요청 {}", movieDto);
+        Long mno = service.movieUpdate(movieDto);
+        rttr.addFlashAttribute("msg", mno);
+        rttr.addAttribute("mno", movieDto.getMno());
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("size", requestDto.getSize());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
+        return "redirect:/movie/read";
+    }
+
     @PostMapping("/remove")
-    public String postRemove(@RequestParam Long mno) {
+    public String postRemove(@RequestParam Long mno, RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto requestDto) {
         log.info("remove 요청 {}", mno);
         service.movieRemove(mno);
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("size", requestDto.getSize());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
         return "redirect:/movie/list";
     }
 
     @GetMapping("/register")
-    public void getRegister() {
+    public void getRegister(RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto requestDto) {
         log.info("영화 등록 폼 요청 register");
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("size", requestDto.getSize());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
     }
 
     @PostMapping("/register")
-    public String postMethodName(MovieDto movieDto, RedirectAttributes rttr) {
+    public String postRegister(MovieDto movieDto, RedirectAttributes rttr,
+            @ModelAttribute("requestDto") PageRequestDto requestDto) {
         log.info("영화 등록 {}", movieDto);
 
         // 서비스 호출
         Long mno = service.movieInsert(movieDto);
+
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("size", requestDto.getSize());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
 
         // mno 넘기기
         rttr.addFlashAttribute("msg", mno);
