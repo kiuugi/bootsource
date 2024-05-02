@@ -64,15 +64,24 @@ public class MovieRepositoryTest {
     @Test
     public void memberInsertTest() {
         // 맴버 샘플 데이터 추가
-        IntStream.rangeClosed(1, 100).forEach(i -> {
+        IntStream.rangeClosed(1, 2).forEach(i -> {
             Member member = Member.builder()
-                    .email("mem" + i + "@email.com")
+                    .email("admin" + i + "@email.com")
                     .password(passwordEncoder.encode("1111"))
-                    .role(MemberRole.MEMBER)
-                    .nickname("reviewer" + i)
+                    .role(MemberRole.ADMIN)
+                    .nickname("admin" + i)
                     .build();
             memberRepository.save(member);
         });
+        // IntStream.rangeClosed(1, 100).forEach(i -> {
+        // Member member = Member.builder()
+        // .email("mem" + i + "@email.com")
+        // .password(passwordEncoder.encode("1111"))
+        // .role(MemberRole.MEMBER)
+        // .nickname("reviewer" + i)
+        // .build();
+        // memberRepository.save(member);
+        // });
     }
 
     @Test
@@ -148,7 +157,7 @@ public class MovieRepositoryTest {
     public void testReviews() {
         Movie movie = Movie.builder().mno(99L).build();
 
-        List<Review> reviews = reviewRepository.findByMovie(movie);
+        List<Review> reviews = reviewRepository.findByMovieOrderByReviewNoDesc(movie);
 
         // fetch = FetchType.LAZY : select review table 만 실행
 

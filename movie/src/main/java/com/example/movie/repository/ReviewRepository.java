@@ -24,5 +24,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     // 이 메소드 실행 시 join 구문으로 처리해줘
     // .getMember.get* 하고 들어갈때 select 구문이 2번 실행되는걸 방지함
     @EntityGraph(attributePaths = { "member" }, type = EntityGraphType.FETCH)
-    List<Review> findByMovie(Movie movie);
+    List<Review> findByMovieOrderByReviewNoDesc(Movie movie);
 }

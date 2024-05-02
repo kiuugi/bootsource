@@ -11,6 +11,16 @@ public interface ReviewService {
     // 특정 영화의 모든 리뷰 가져오기
     List<ReviewDto> getListOfMovie(Long mno);
 
+    // 특정 영화에 리뷰 등록
+    Long addReview(ReviewDto reviewDto);
+
+    // 특정 리뷰 삭제
+    void removeReview(Long reviewNo);
+
+    ReviewDto getReview(Long reviewNo);
+
+    Long updateReview(ReviewDto reviewDto);
+
     public default ReviewDto entityToDto(Review review) {
         return ReviewDto.builder()
                 .reviewNo(review.getReviewNo())

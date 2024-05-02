@@ -91,13 +91,14 @@
       <!-- 리뷰 작성 폼-->
       <form action="" method="post" class="review-form">
         <input type="hidden" name="reviewNo" id="reviewNo" />
+        <input type="hidden" name="mid" id="mid" value="2" />
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">작성자</span>
           <input
             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
             placeholder="작성자"
-            name="mid"
-            id="mid"
+            name="nickname"
+            id="nickname"
           />
         </label>
         <label class="block text-sm mt-2">
@@ -116,7 +117,7 @@
           <div class="starrr"></div>
         </label>
         <div class="flex mt-6 text-sm">
-          <button type="button" class="btn btn-outline-danger btn-sm" style="--bs-btn-padding-y: 0.5rem; --bs-btn-padding-x: 1.5rem">
+          <button type="submit" class="btn btn-outline-danger btn-sm" style="--bs-btn-padding-y: 0.5rem; --bs-btn-padding-x: 1.5rem">
             리뷰 등록
           </button>
         </div>
@@ -179,10 +180,12 @@
         const reviewList = document.querySelector(".reviewList");
         // 리뷰 갯수가 존재한다면 reviewList 클래스명 hidden 제거
         const reviewCnt = parseInt(`[[${dto.reviewCnt}]]`)
-        if (reviewCnt == 0) {
+        if (reviewCnt < 1) {
           reviewList.classList.add("hidden")
         }
+        
         const mno = '[[${dto.mno}]]';
+
         // 영화명 변수에 담기
         const title = '[[${dto.title}]]';
         const msg = "[[${msg}]]";
@@ -194,7 +197,8 @@
       <script th:src="@{/js/starrr.js}"></script>
       <script>
         // 별 보여주기
-        let grade = 0;
+        const avg = "[[${dto.avg}]]"
+        let grade = avg;
         $('.starrr').starrr({
           rating: grade, // 처음에 보여줄 값
           change: function(e, value){
@@ -202,7 +206,8 @@
             grade = value;
           }
         })
-      </script>
+        </script>
+        <script th:src="@{/js/review.js}"></script>
     </th:block>
   </div>
 </html>

@@ -18,7 +18,10 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
-                .anyRequest().permitAll())
+                .requestMatchers("/", "/assets/**", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/movie/list", "/movie/read", "/upload/display", "/reviews/**").permitAll()
+                .anyRequest().authenticated())
+                // login 페이지는 /member/login 경로 요청 해야한다는 의미
                 .formLogin(login -> login.loginPage("/member/login").permitAll())
                 .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                         .logoutSuccessUrl("/"));
