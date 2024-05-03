@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Commit;
 
 import com.example.movie.constant.MemberRole;
 import com.example.movie.dto.PageRequestDto;
@@ -167,6 +168,19 @@ public class MovieRepositoryTest {
             System.out.println(review.getMember().getNickname());
         });
 
+    }
+
+    @Commit
+    @Transactional
+    @Test
+    public void deleteByMemberTest() {
+        // 리뷰삭제
+        Member member = Member.builder()
+                .mid(74L)
+                .build();
+        reviewRepository.deleteByMember(member);
+        // 회원삭제
+        memberRepository.delete(member);
     }
 
 }

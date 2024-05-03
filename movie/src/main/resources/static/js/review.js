@@ -64,7 +64,7 @@ reviewForm.addEventListener("submit", (e) => {
   if (!reviewNo.value) {
     fetch(`/reviews/${mno}`, {
       method: "post",
-      headers: { "content-type": "application/json" },
+      headers: { "content-type": "application/json", "X-CSRF-TOKEN": csrfValue },
       body: JSON.stringify(body),
     })
       .then((response) => response.text())
@@ -83,7 +83,7 @@ reviewForm.addEventListener("submit", (e) => {
   } else {
     fetch(`/reviews/${mno}/${reviewNo.value}`, {
       method: "put",
-      headers: { "content-type": "application/json" },
+      headers: { "content-type": "application/json", "X-CSRF-TOKEN": csrfValue },
       body: JSON.stringify(body),
     })
       .then((response) => response.text())

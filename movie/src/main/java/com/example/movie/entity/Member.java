@@ -2,6 +2,7 @@ package com.example.movie.entity;
 
 import com.example.movie.constant.MemberRole;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,10 +31,13 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mid_seq_gen")
     private Long mid;
 
+    @Column(unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String nickname;
 
     private MemberRole role;

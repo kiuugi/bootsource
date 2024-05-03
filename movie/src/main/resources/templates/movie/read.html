@@ -89,9 +89,9 @@
       </div>
 
       <!-- 리뷰 작성 폼-->
-      <form action="" method="post" class="review-form">
+      <form th:action="@{/movie/review}" method="post" class="review-form">
         <input type="hidden" name="reviewNo" id="reviewNo" />
-        <input type="hidden" name="mid" id="mid" value="2" />
+        <input type="hidden" name="mid" id="mid" th:value="${#authentication.principal.memberDto.mid}" />
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">작성자</span>
           <input
@@ -176,6 +176,7 @@
     </div>
     <th:block layout:fragment="script">
       <script>
+        const csrfValue = "[[${_csrf.token}]]"
          // 리뷰영역
         const reviewList = document.querySelector(".reviewList");
         // 리뷰 갯수가 존재한다면 reviewList 클래스명 hidden 제거

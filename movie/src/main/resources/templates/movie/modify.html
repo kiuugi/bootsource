@@ -92,7 +92,7 @@
         </ul>
       </div>
       <!-- 삭제폼 -->
-      <form method="post" id="actionForm" action="/movie/remove">
+      <form method="post" id="actionForm" th:action="@{/movie/remove}">
         <input type="hidden" name="mno" th:value="${dto.mno}" />
         <input type="hidden" name="page" th:value="${requestDto.page}" />
         <input type="hidden" name="type" th:value="${requestDto.type}"/>
