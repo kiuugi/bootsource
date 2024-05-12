@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.example.movie.entity.Review;
 
-import jakarta.transaction.Transactional;
-
 import com.example.movie.entity.Movie;
 import java.util.List;
 import com.example.movie.entity.Member;

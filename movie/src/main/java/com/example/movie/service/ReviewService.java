@@ -37,13 +37,20 @@ public interface ReviewService {
     }
 
     public default Review dtoToEntity(ReviewDto reviewDto) {
-        return Review.builder()
-                .reviewNo(reviewDto.getReviewNo())
-                .grade(reviewDto.getGrade())
-                .text(reviewDto.getText())
-                .member(Member.builder().mid(reviewDto.getMid()).build())
-                .movie(Movie.builder().mno(reviewDto.getMno()).build())
-                .build();
-
+        // return Review.builder()
+        // .reviewNo(reviewDto.getReviewNo())
+        // .grade(reviewDto.getGrade())
+        // .text(reviewDto.getText())
+        // .member(Member.builder().mid(reviewDto.getMid()).build())
+        // .movie(Movie.builder().mno(reviewDto.getMno()).build())
+        // .build();
+        Review review = new Review();
+        review.setCreatedDate(reviewDto.getCreatedDate());
+        review.setGrade(reviewDto.getGrade());
+        review.setReviewNo(reviewDto.getReviewNo());
+        review.setMember(Member.builder().mid(reviewDto.getMid()).build());
+        review.setText(reviewDto.getText());
+        review.setMovie(Movie.builder().mno(reviewDto.getMno()).build());
+        return review;
     }
 }

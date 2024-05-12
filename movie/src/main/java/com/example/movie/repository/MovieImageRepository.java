@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import com.example.movie.entity.MovieImage;
 import com.example.movie.repository.total.MovieImageReviewRepository;
 
-import jakarta.transaction.Transactional;
-
 import com.example.movie.entity.Movie;
 
 public interface MovieImageRepository extends JpaRepository<MovieImage, Long>, MovieImageReviewRepository {

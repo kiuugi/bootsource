@@ -39,8 +39,9 @@
           />
         </label>
 
-        <div class="flex flex-col flex-wrap mb-8 space-y-4 md:flex-row md:items-end md:space-x-5">
-          <div>
+        <div class="flex flex-col flex-wrap mb-8 space-y-4 md:flex-row md:items-end md:space-x-5 mt-3">
+          <!-- 장성자와 == 로그인 사용자 or ADMIN -->
+          <div sec:authorize="hasRole('ADMIN')">
             <a th:href="@{/movie/modify(mno=${dto.mno},page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword})}">
               <button class="btn btn-success flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white" type="button">
                 <span>수정</span>
@@ -89,9 +90,10 @@
       </div>
 
       <!-- 리뷰 작성 폼-->
-      <form th:action="@{/movie/review}" method="post" class="review-form">
+      <form th:action="@{/movie/review}" method="post" class="review-form" sec:authorize="hasAnyRole('MEMBER','ADMIN')">
         <input type="hidden" name="reviewNo" id="reviewNo" />
         <input type="hidden" name="mid" id="mid" th:value="${#authentication.principal.memberDto.mid}" />
+        <input type="hidden" name="email" id="email" th:value="${#authentication.principal.memberDto.email}" />
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">작성자</span>
           <input
@@ -99,6 +101,7 @@
             placeholder="작성자"
             name="nickname"
             id="nickname"
+            th:value="${#authentication.principal.memberDto.nickname}"
           />
         </label>
         <label class="block text-sm mt-2">
@@ -207,6 +210,9 @@
             grade = value;
           }
         })
+
+        // 로그인 유저
+        const user = '[[${#authentication.name}]]';
         </script>
         <script th:src="@{/js/review.js}"></script>
     </th:block>

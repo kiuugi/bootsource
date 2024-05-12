@@ -26,11 +26,12 @@ const reviewsLoaded = () => {
         result += `<div class="small text-muted"><span class="d-inline-block mr-3">${review.nickname}</span>`;
         result += `평점 : <span class="grade">${review.grade} </span></div>`;
         result += `<div class="text-muted"><span class="small">${formateDate(review.lastModifiedDate)}</span></div></div>`;
-        result += `<div class="d-flex flex-column align-self-center"><div class="mb-2">`;
-        // if (`${mid}` == `${review.mid}`) { 로그인 만들면 그때 하는걸로
-        result += '<button class="btn btn-outline-danger btn-sm">삭제</button></div>';
-        result += '<div><button class="btn btn-outline-success btn-sm">수정</button></div></div></div>';
-        // }
+        result += `<div class="d-flex flex-column align-self-center">`;
+        if (`${review.email}` == user) {
+          result += '<div class="mb-2"><button class="btn btn-outline-danger btn-sm">삭제</button></div>';
+          result += '<div><button class="btn btn-outline-success btn-sm">수정</button></div>';
+        }
+        result += "</div></div>";
       });
       reviewList.innerHTML = result;
     });
@@ -46,6 +47,7 @@ reviewForm.addEventListener("submit", (e) => {
   const text = reviewForm.querySelector("#text");
   const mid = reviewForm.querySelector("#mid");
   const nickname = reviewForm.querySelector("#nickname");
+  const email = reviewForm.querySelector("#email");
   const reviewNo = reviewForm.querySelector("#reviewNo");
   if (text == "") {
     alert("내용 확인");
@@ -56,6 +58,7 @@ reviewForm.addEventListener("submit", (e) => {
 
   const body = {
     text: text.value,
+    email: email.value,
     grade: grade || avg,
     mid: mid.value,
     mno: mno,
@@ -72,9 +75,8 @@ reviewForm.addEventListener("submit", (e) => {
         console.log(data);
         if (data) {
           text.value = "";
-          nickname.value = "";
           grade = avg;
-
+          // reviewForm.querySelector(".starrr a:nth-child(" + data.grade + ")").click(); // grade 초기화
           alert(data + "번 리뷰 작성 성공");
 
           reviewsLoaded(); // 리뷰 리스트 다시 가져오기
@@ -91,10 +93,10 @@ reviewForm.addEventListener("submit", (e) => {
         console.log(data);
         if (data) {
           text.value = "";
-          nickname.value = "";
+          // nickname.value = "";
           reviewNo.value = "";
           grade = avg;
-          // reviewForm.querySelector(".starrr a:nth-child(" + data.grade + ")").click(); grade 초기화
+          // reviewForm.querySelector(".starrr a:nth-child(" + data.grade + ")").click(); // grade 초기화
           alert(data + "번 리뷰 수정 성공");
 
           reviewsLoaded(); // 리뷰 리스트 다시 가져오기
@@ -111,12 +113,19 @@ reviewList.addEventListener("click", (e) => {
 
   // 리뷰 댓글 번호 가져오기
   const reviewNo = e.target.closest(".review-row").dataset.rno;
+  // 컨트롤러에서 작성자와 로그인 유저가 같은지 다시 한번 비교하기 위함
+  const email = reviewForm.querySelector("#email");
 
   if (e.target.classList.contains("btn-outline-danger")) {
     if (!confirm("리뷰를 삭제하시겠습니까?")) return;
 
+    const form = new FormData();
+    form.append("email", email.value);
+
     fetch(`/reviews/${mno}/${reviewNo}`, {
       method: "delete",
+      headers: { "X-CSRF-TOKEN": csrfValue }, // json으로 보내던걸 다른걸로 보냄
+      body: form,
     })
       .then((response) => response.text())
       .then((data) => {
@@ -140,6 +149,7 @@ reviewList.addEventListener("click", (e) => {
         reviewForm.querySelector("#nickname").value = data.nickname;
         reviewForm.querySelector("#text").value = data.text;
         reviewForm.querySelector("#mid").value = data.mid;
+        reviewForm.querySelector("#email").value = data.email;
         reviewForm.querySelector(".starrr a:nth-child(" + data.grade + ")").click();
         reviewForm.querySelector("button").innerHTML = "리뷰 수정";
       });
